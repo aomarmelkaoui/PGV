@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حزب المجتمع المدني المغربي - المنصة الرقمية</title>
+<!-- Version prête pour hébergement statique sur Hostinger -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', 'Tajawal', sans-serif; }
+  :root {
+    --primary: #006233;
+    --primary-dark: #004d29;
+    --secondary: #c1272d;
+    --accent: #f4c430;
+    --bg: #f7f9fc;
+    --white: #ffffff;
+    --text: #1a1a1a;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --success: #10b981;
+    --shadow: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.05);
+  }
+  body { background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 1rem 2rem;
+    box-shadow: var(--shadow-lg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .logo { display: flex; align-items: center; gap: 0.8rem; }
+  .logo-icon {
+    width: 50px; height: 50px; border-radius: 50%;
+    background: var(--accent); display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; font-weight: 900; color: var(--primary);
+  }
+  .logo-text h1 { font-size: 1.3rem; font-weight: 900; }
+  .logo-text p { font-size: 0.8rem; opacity: 0.9; }
+  nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  nav button {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  nav button:hover { background: rgba(255,255,255,0.2); }
+  nav button.active { background: var(--accent); color: var(--primary-dark); border-color: var(--accent); }
+
+  /* Main Container */
+  .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+
+  /* Hero Section */
+  .hero {
+    background: linear-gradient(135deg, rgba(0,98,51,0.95) 0%, rgba(193,39,45,0.9) 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="50,15 58,38 82,38 63,53 70,76 50,62 30,76 37,53 18,38 42,38" fill="white" opacity="0.05"/></svg>');
+    background-size: cover;
+    color: white;
+    padding: 4rem 2rem;
+    border-radius: 20px;
+    text-align: center;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-lg);
+  }
+  .hero h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; }
+  .hero p { font-size: 1.2rem; opacity: 0.95; margin-bottom: 2rem; max-width: 700px; margin-right: auto; margin-left: auto; }
+  .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    padding: 0.9rem 2rem;
+    border-radius: 10px;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .btn-primary { background: var(--accent); color: var(--primary-dark); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .btn-secondary { background: white; color: var(--primary); }
+  .btn-secondary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .btn-outline { background: transparent; color: white; border: 2px solid white; }
+  .btn-outline:hover { background: white; color: var(--primary); }
+  .btn-success { background: var(--success); color: white; }
+  .btn-danger { background: var(--secondary); color: white; }
+
+  /* Cards Grid */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+  .card {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    border-top: 4px solid var(--primary);
+  }
+  .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+  .card-icon {
+    width: 70px; height: 70px; margin: 0 auto 1rem;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 1.8rem;
+  }
+  .card h3 { color: var(--primary); margin-bottom: 0.5rem; font-size: 1.25rem; }
+  .card p { color: var(--muted); font-size: 0.95rem; }
+
+  /* Sections */
+  .section { display: none; animation: fadeIn 0.4s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-header {
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 16px 16px 0 0;
+    border-bottom: 3px solid var(--primary);
+    box-shadow: var(--shadow);
+  }
+  .section-header h2 { color: var(--primary); font-size: 1.8rem; display: flex; align-items: center; gap: 0.8rem; }
+  .section-header p { color: var(--muted); margin-top: 0.3rem; }
+
+  /* Forms */
+  .form-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 0 0 16px 16px;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+  }
+  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+  .form-group { display: flex; flex-direction: column; }
+  .form-group.full-width { grid-column: 1 / -1; }
+  .form-group label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+  .form-group label .required { color: var(--secondary); margin-right: 3px; }
+  .form-group input, .form-group select, .form-group textarea {
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.2s;
+    background: var(--bg);
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(0,98,51,0.1);
+  }
+  .form-group textarea { resize: vertical; min-height: 100px; font-family: inherit; }
+  .checkbox-group { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.5rem; }
+  .checkbox-item {
+    display: flex; align-items: center; gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .checkbox-item:hover { border-color: var(--primary); }
+  .checkbox-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; }
+  .checkbox-item input[type="checkbox"]:checked + span { color: var(--primary); font-weight: 700; }
+  .form-actions { display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-start; flex-wrap: wrap; }
+  .form-note {
+    padding: 0.8rem 1rem;
+    background: #fffbea;
+    border-right: 4px solid var(--accent);
+    border-radius: 8px;
+    color: #7a5c00;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Alerts */
+  .alert {
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    display: none;
+    font-weight: 600;
+    animation: slideDown 0.3s;
+  }
+  @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .alert-success { background: #d1fae5; color: #065f46; border: 1px solid #10b981; }
+  .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #ef4444; }
+
+  /* Dashboard */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+  .stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-right: 5px solid var(--primary);
+  }
+  .stat-card.secondary { border-right-color: var(--secondary); }
+  .stat-card.accent { border-right-color: var(--accent); }
+  .stat-card.success { border-right-color: var(--success); }
+  .stat-icon {
+    width: 55px; height: 55px;
+    background: var(--bg);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+  }
+  .stat-info h4 { font-size: 2rem; font-weight: 900; color: var(--text); }
+  .stat-info p { color: var(--muted); font-size: 0.9rem; }
+
+  .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+  .chart-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+  }
+  .chart-card h3 { color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem; }
+  .chart-wrapper { position: relative; height: 300px; }
+
+  /* Tables */
+  .table-wrapper { background: white; border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; margin-bottom: 2rem; }
+  .table-header { padding: 1.5rem; border-bottom: 2px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .table-header h3 { color: var(--primary); }
+  .table-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; min-width: 700px; }
+  th { background: var(--bg); padding: 1rem; text-align: right; font-weight: 700; color: var(--primary); font-size: 0.9rem; border-bottom: 2px solid var(--border); }
+  td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  tr:hover { background: var(--bg); }
+  .badge { display: inline-block; padding: 0.25rem 0.7rem; border-radius: 50px; font-size: 0.8rem; font-weight: 600; }
+  .badge-primary { background: #dcfce7; color: #065f46; }
+  .badge-secondary { background: #fee2e2; color: #991b1b; }
+  .badge-accent { background: #fef3c7; color: #92400e; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0.5rem; padding: 1rem 1.5rem; background: white; border-radius: 12px; margin-bottom: 1rem; box-shadow: var(--shadow); overflow-x: auto; }
+  .tab-btn {
+    padding: 0.6rem 1.2rem;
+    border: 2px solid var(--border);
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+  /* Footer */
+  footer {
+    background: var(--primary-dark);
+    color: white;
+    padding: 2rem;
+    margin-top: 3rem;
+    text-align: center;
+  }
+  footer p { opacity: 0.9; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero h2 { font-size: 1.8rem; }
+    .hero p { font-size: 1rem; }
+    .container { padding: 1rem; }
+    .header-inner { flex-direction: column; align-items: stretch; }
+    nav { justify-content: center; }
+  }
+
+  /* Print */
+  @media print { header, footer, nav, .form-actions, .table-header .btn { display: none !important; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">ح</div>
+      <div class="logo-text">
+        <h1>حزب المجتمع المدني المغربي</h1>
+        <p>منصتك للمشاركة - صوتك يصنع التغيير</p>
+      </div>
+    </div>
+    <nav>
+      <button class="nav-btn active" data-section="home">🏠 الرئيسية</button>
+      <button class="nav-btn" data-url="https://forms.gle/ym2oYr8cCposXaoX8">📝 الانخراط</button>
+      <button class="nav-btn" data-url="https://forms.gle/znDVxFUqMtjMHoAp9">💡 شارك فكرة</button>
+      <button class="nav-btn" data-url="https://forms.gle/DrrEN8nqpNVoA2aDA">🤝 التطوع</button>
+      <button class="nav-btn" data-url="https://forms.gle/iwv9TNxBkCmXqq4HA">⭐ الدعم</button>
+      <button class="nav-btn" data-url="https://forms.gle/qFK6hyexqyHvkk496">📞 اتصل بنا</button>
+      <button class="nav-btn" data-section="dashboard">📊 لوحة التحكم</button>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Alert Messages -->
+  <div id="alertSuccess" class="alert alert-success"></div>
+  <div id="alertError" class="alert alert-error"></div>
+
+  <!-- HOME SECTION -->
+  <div id="section-home" class="section active">
+    <div class="hero">
+      <h2>منصتك للمشاركة، صوتك يصنع التغيير</h2>
+      <p>انضم إلى حزب المجتمع المدني المغربي، وكن جزءًا من مسيرة التغيير والبناء الديمقراطي. معًا نصنع مستقبلًا أفضل للمغرب</p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary" onclick="window.open('https://forms.gle/ym2oYr8cCposXaoX8')">📝 انضم إلينا</button>
+        <button class="btn btn-outline" onclick="window.open('https://forms.gle/znDVxFUqMtjMHoAp9', '_blank')">💡 شارك فكرة</button>
+        <button class="btn btn-outline" onclick="showSection('dashboard')">📊 تابع المستجدات</button>
+      </div>
+    </div>
+
+    <div class="cards-grid">
+      <div class="card" onclick="window.open('https://forms.gle/ym2oYr8cCposXaoX8', '_blank')">
+        <div class="card-icon">📝</div>
+        <h3>استمارة الانخراط</h3>
+        <p>سجّل عضويتك في الحزب وانضم إلى قاعدة المناضلين من أجل مجتمع مدني قوي</p>
+      </div>
+      <div class="card" onclick="window.open('https://forms.gle/znDVxFUqMtjMHoAp9', '_blank')">
+        <div class="card-icon">💡</div>
+        <h3>شارك فكرتك</h3>
+        <p>قدّم اقتراحاتك ومبادراتك لتطوير الحزب والمشاركة في بناء البرنامج</p>
+      </div>
+      <div class="card" onclick="window.open('https://forms.gle/DrrEN8nqpNVoA2aDA', '_blank')">
+        <div class="card-icon">🤝</div>
+        <h3>تطوّع معنا</h3>
+        <p>كن متطوعًا نشطًا في الفروع الإقليمية وساهم في تنظيم الأنشطة</p>
+      </div>
+      <div class="card" onclick="window.open('https://forms.gle/iwv9TNxBkCmXqq4HA', '_blank')">
+        <div class="card-icon">⭐</div>
+        <h3>ادعم الحزب</h3>
+        <p>قدّم دعمك المادي أو المعنوي للحزب ولأنشطته التنظيمية والتواصلية</p>
+      </div>
+      <div class="card" onclick="window.open('https://forms.gle/qFK6hyexqyHvkk496', '_blank')">
+        <div class="card-icon">📞</div>
+        <h3>تواصل معنا</h3>
+        <p>أرسل استفساراتك وملاحظاتك، نحن هنا للاستماع إلى صوتك</p>
+      </div>
+      <div class="card" onclick="showSection('dashboard')">
+        <div class="card-icon">📊</div>
+        <h3>لوحة المعلومات</h3>
+        <p>اطلع على إحصائيات المنخرطين والأنشطة والمشاركة داخل الحزب</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTRATION SECTION -->
+  <div id="section-registration" class="section">
+    <div class="section-header">
+      <h2>📝 استمارة الانخراط في حزب المجتمع المدني المغربي</h2>
+      <p>املأ البيانات التالية للانضمام إلى الحزب</p>
+    </div>
+    <div class="form-container">
+      <div class="form-note">ℹ️ الحقول المؤشرة بـ <span style="color:var(--secondary)">*</span> إجبارية. جميع بياناتك محفوظة بسرية تامة.</div>
+      <form id="registrationForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>الاسم الكامل <span class="required">*</span></label>
+            <input type="text" name="fullName" required placeholder="مثال: محمد أمين بنعلي">
+          </div>
+          <div class="form-group">
+            <label>رقم الهاتف <span class="required">*</span></label>
+            <input type="tel" name="phone" required placeholder="06XXXXXXXX" pattern="[0-9+\s-]{8,15}">
+          </div>
+          <div class="form-group">
+            <label>البريد الإلكتروني</label>
+            <input type="email" name="email" placeholder="example@email.com">
+          </div>
+          <div class="form-group">
+            <label>الإقليم / المدينة <span class="required">*</span></label>
+            <select name="city" required>
+              <option value="">-- اختر الإقليم --</option>
+              <option>الرباط</option><option>الدار البيضاء</option><option>فاس</option>
+              <option>مراكش</option><option>طنجة</option><option>أكادير</option>
+              <option>مكناس</option><option>وجدة</option><option>القنيطرة</option>
+              <option>تطوان</option><option>آسفي</option><option>المحمدية</option>
+              <option>خريبكة</option><option>الجديدة</option><option>بني ملال</option>
+              <option>تازة</option><option>الناظور</option><option>سطات</option>
+              <option>العيون</option><option>الداخلة</option><option>ورزازات</option>
+              <option>خنيفرة</option><option>الصويرة</option><option>تارودانت</option>
+              <option>أخرى</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>تاريخ الميلاد <span class="required">*</span></label>
+            <input type="date" name="birthDate" required>
+          </div>
+          <div class="form-group">
+            <label>الجنس <span class="required">*</span></label>
+            <select name="gender" required>
+              <option value="">-- اختر --</option>
+              <option>ذكر</option>
+              <option>أنثى</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>المستوى الدراسي</label>
+            <select name="education">
+              <option value="">-- اختر --</option>
+              <option>ابتدائي</option><option>إعدادي</option><option>ثانوي</option>
+              <option>بكالوريا</option><option>تقني</option><option>إجازة</option>
+              <option>ماستر</option><option>دكتوراه</option><option>أخرى</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>المهنة</label>
+            <input type="text" name="profession" placeholder="مثال: أستاذ، مهندس، طالب...">
+          </div>
+          <div class="form-group full-width">
+            <label>نوع المشاركة <span class="required">*</span></label>
+            <div class="checkbox-group">
+              <label class="checkbox-item"><input type="checkbox" name="participationType" value="عضو منخرط"><span>عضو منخرط</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="participationType" value="متطوع"><span>متطوع</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="participationType" value="صاحب فكرة"><span>صاحب فكرة</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="participationType" value="داعم"><span>داعم</span></label>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label>مجالات الاهتمام</label>
+            <div class="checkbox-group">
+              <label class="checkbox-item"><input type="checkbox" name="interests" value="التعليم"><span>التعليم</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="interests" value="الصحة"><span>الصحة</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="interests" value="التشغيل"><span>التشغيل</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="interests" value="البيئة"><span>البيئة</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="interests" value="الشباب"><span>الشباب</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="interests" value="المرأة"><span>المرأة</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="interests" value="الثقافة"><span>الثقافة والفن</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="interests" value="الرياضة"><span>الرياضة</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="interests" value="حقوق الإنسان"><span>حقوق الإنسان</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="interests" value="التنمية المحلية"><span>التنمية المحلية</span></label>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label>نبذة قصيرة عنك</label>
+            <textarea name="bio" maxlength="300" placeholder="اكتب نبذة قصيرة عن نفسك (300 حرف كحد أقصى)"></textarea>
+          </div>
+          <div class="form-group full-width">
+            <label class="checkbox-item" style="background: #f0fdf4; border-color: var(--success);">
+              <input type="checkbox" name="agreement" required>
+              <span>أقرّ بأنني قرأت وأوافق على النظام الداخلي والميثاق الأخلاقي لحزب المجتمع المدني المغربي <span class="required">*</span></span>
+            </label>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-success">✓ تسجيل الانخراط</button>
+          <button type="reset" class="btn btn-danger">↻ إعادة تعيين</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- IDEA SECTION -->
+  <div id="section-idea" class="section">
+    <div class="section-header">
+      <h2>💡 شارك فكرتك</h2>
+      <p>قدّم اقتراحاتك ومبادراتك لتطوير عمل الحزب والمجتمع</p>
+    </div>
+    <div class="form-container">
+      <form id="ideaForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>الاسم الكامل <span class="required">*</span></label>
+            <input type="text" name="fullName" required>
+          </div>
+          <div class="form-group">
+            <label>رقم الهاتف</label>
+            <input type="tel" name="phone">
+          </div>
+          <div class="form-group">
+            <label>البريد الإلكتروني <span class="required">*</span></label>
+            <input type="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label>مجال الفكرة <span class="required">*</span></label>
+            <select name="category" required>
+              <option value="">-- اختر --</option>
+              <option>التعليم</option><option>الصحة</option><option>التشغيل</option>
+              <option>البيئة</option><option>الشباب</option><option>المرأة</option>
+              <option>الثقافة والفن</option><option>التنمية المحلية</option>
+              <option>حقوق الإنسان</option><option>الحكامة</option><option>أخرى</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label>عنوان الفكرة <span class="required">*</span></label>
+            <input type="text" name="title" required placeholder="عنوان موجز وواضح للفكرة">
+          </div>
+          <div class="form-group full-width">
+            <label>شرح الفكرة <span class="required">*</span></label>
+            <textarea name="description" required rows="5" placeholder="اشرح فكرتك بالتفصيل، ما هي المشكلة التي تعالجها، وكيف يمكن تنفيذها..."></textarea>
+          </div>
+          <div class="form-group full-width">
+            <label>الجدوى المتوقعة والأثر</label>
+            <textarea name="impact" rows="3" placeholder="ما هو الأثر المتوقع لهذه الفكرة على المجتمع؟"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-success">✓ إرسال الفكرة</button>
+          <button type="reset" class="btn btn-danger">↻ إعادة تعيين</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- VOLUNTEER SECTION -->
+  <div id="section-volunteer" class="section">
+    <div class="section-header">
+      <h2>🤝 استمارة التطوع</h2>
+      <p>كن متطوعًا نشطًا في أنشطة الحزب وفعالياته</p>
+    </div>
+    <div class="form-container">
+      <form id="volunteerForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>الاسم الكامل <span class="required">*</span></label>
+            <input type="text" name="fullName" required>
+          </div>
+          <div class="form-group">
+            <label>رقم الهاتف <span class="required">*</span></label>
+            <input type="tel" name="phone" required>
+          </div>
+          <div class="form-group">
+            <label>البريد الإلكتروني</label>
+            <input type="email" name="email">
+          </div>
+          <div class="form-group">
+            <label>المدينة <span class="required">*</span></label>
+            <input type="text" name="city" required>
+          </div>
+          <div class="form-group">
+            <label>العمر</label>
+            <input type="number" name="age" min="18" max="100">
+          </div>
+          <div class="form-group">
+            <label>الساعات المتاحة أسبوعيًا</label>
+            <select name="hours">
+              <option value="">-- اختر --</option>
+              <option>أقل من 5 ساعات</option>
+              <option>5-10 ساعات</option>
+              <option>10-20 ساعة</option>
+              <option>أكثر من 20 ساعة</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label>مجالات التطوع المفضلة</label>
+            <div class="checkbox-group">
+              <label class="checkbox-item"><input type="checkbox" name="areas" value="تنظيم الفعاليات"><span>تنظيم الفعاليات</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="areas" value="التواصل الاجتماعي"><span>التواصل الاجتماعي</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="areas" value="الميدان"><span>العمل الميداني</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="areas" value="التصميم"><span>التصميم والإعلام</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="areas" value="الترجمة"><span>الترجمة</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="areas" value="التدريب"><span>التأطير والتدريب</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="areas" value="الدعم اللوجستي"><span>الدعم اللوجستي</span></label>
+              <label class="checkbox-item"><input type="checkbox" name="areas" value="أخرى"><span>أخرى</span></label>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label>مهاراتك وخبراتك</label>
+            <textarea name="skills" rows="3" placeholder="اذكر مهاراتك وخبراتك التي يمكن أن تفيد الحزب"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-success">✓ تسجيل التطوع</button>
+          <button type="reset" class="btn btn-danger">↻ إعادة تعيين</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SUPPORT SECTION -->
+  <div id="section-support" class="section">
+    <div class="section-header">
+      <h2>⭐ دعم الحزب</h2>
+      <p>ادعم الحزب ماديًا أو معنويًا</p>
+    </div>
+    <div class="form-container">
+      <form id="supportForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>الاسم الكامل <span class="required">*</span></label>
+            <input type="text" name="fullName" required>
+          </div>
+          <div class="form-group">
+            <label>رقم الهاتف <span class="required">*</span></label>
+            <input type="tel" name="phone" required>
+          </div>
+          <div class="form-group">
+            <label>البريد الإلكتروني</label>
+            <input type="email" name="email">
+          </div>
+          <div class="form-group">
+            <label>المدينة</label>
+            <input type="text" name="city">
+          </div>
+          <div class="form-group">
+            <label>نوع الدعم <span class="required">*</span></label>
+            <select name="supportType" required>
+              <option value="">-- اختر --</option>
+              <option>دعم مادي</option>
+              <option>دعم لوجستي</option>
+              <option>دعم إعلامي</option>
+              <option>دعم قانوني</option>
+              <option>دعم معنوي</option>
+              <option>شراكة / تعاون</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>قيمة الدعم (إن وُجد، بالدرهم)</label>
+            <input type="number" name="amount" min="0" placeholder="مثال: 500">
+          </div>
+          <div class="form-group full-width">
+            <label>تفاصيل الدعم</label>
+            <textarea name="details" rows="4" placeholder="اذكر تفاصيل الدعم الذي تقدمه..."></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-success">✓ تسجيل الدعم</button>
+          <button type="reset" class="btn btn-danger">↻ إعادة تعيين</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CONTACT SECTION -->
+  <div id="section-contact" class="section">
+    <div class="section-header">
+      <h2>📞 تواصل معنا</h2>
+      <p>أرسل رسالتك أو استفسارك</p>
+    </div>
+    <div class="form-container">
+      <form id="contactForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>الاسم الكامل <span class="required">*</span></label>
+            <input type="text" name="fullName" required>
+          </div>
+          <div class="form-group">
+            <label>البريد الإلكتروني <span class="required">*</span></label>
+            <input type="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label>رقم الهاتف</label>
+            <input type="tel" name="phone">
+          </div>
+          <div class="form-group">
+            <label>نوع الرسالة <span class="required">*</span></label>
+            <select name="messageType" required>
+              <option value="">-- اختر --</option>
+              <option>استفسار عام</option>
+              <option>شكوى</option>
+              <option>اقتراح</option>
+              <option>طلب تعاون</option>
+              <option>طلب إعلامي</option>
+              <option>أخرى</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label>الموضوع <span class="required">*</span></label>
+            <input type="text" name="subject" required>
+          </div>
+          <div class="form-group full-width">
+            <label>الرسالة <span class="required">*</span></label>
+            <textarea name="message" required rows="5" placeholder="اكتب رسالتك هنا..."></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-success">✓ إرسال الرسالة</button>
+          <button type="reset" class="btn btn-danger">↻ إعادة تعيين</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- DASHBOARD SECTION -->
+  <div id="section-dashboard" class="section">
+    <div class="section-header">
+      <h2>📊 لوحة التحكم والإحصائيات</h2>
+      <p>عرض شامل لجميع البيانات والإحصائيات</p>
+    </div>
+
+    <div style="background: white; padding: 1.2rem 1.5rem; border-radius: 0 0 12px 12px; margin-bottom: 1.5rem; box-shadow: var(--shadow); display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center;">
+      <button class="btn btn-primary" onclick="exportToExcel()">📥 تصدير إلى Excel</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">📤 استيراد من Excel</button>
+      <input type="file" id="importFile" accept=".xlsx,.xls" style="display:none" onchange="importFromExcel(event)">
+      <button class="btn btn-outline" style="color: var(--primary); border-color: var(--primary);" onclick="printDashboard()">🖨 طباعة</button>
+      <button class="btn btn-danger" onclick="clearAllData()">🗑 مسح جميع البيانات</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-info"><h4 id="statMembers">0</h4><p>المنخرطون</p></div></div>
+      <div class="stat-card secondary"><div class="stat-icon">💡</div><div class="stat-info"><h4 id="statIdeas">0</h4><p>الأفكار المقترحة</p></div></div>
+      <div class="stat-card accent"><div class="stat-icon">🤝</div><div class="stat-info"><h4 id="statVolunteers">0</h4><p>المتطوعون</p></div></div>
+      <div class="stat-card success"><div class="stat-icon">⭐</div><div class="stat-info"><h4 id="statSupport">0</h4><p>الداعمون</p></div></div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>📍 المنخرطون حسب المدن</h3>
+        <div class="chart-wrapper"><canvas id="chartCities"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>🎯 نوع المشاركة</h3>
+        <div class="chart-wrapper"><canvas id="chartParticipation"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>⚧ التوزيع حسب الجنس</h3>
+        <div class="chart-wrapper"><canvas id="chartGender"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>🎓 المستوى الدراسي</h3>
+        <div class="chart-wrapper"><canvas id="chartEducation"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Tabs for tables -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="tab-members">👥 المنخرطون</button>
+      <button class="tab-btn" data-tab="tab-ideas">💡 الأفكار</button>
+      <button class="tab-btn" data-tab="tab-volunteers">🤝 المتطوعون</button>
+      <button class="tab-btn" data-tab="tab-supports">⭐ الدعم</button>
+      <button class="tab-btn" data-tab="tab-contacts">📞 الرسائل</button>
+    </div>
+
+    <div id="tab-members" class="tab-content">
+      <div class="table-wrapper">
+        <div class="table-header"><h3>قائمة المنخرطين</h3><span id="countMembers" class="badge badge-primary">0</span></div>
+        <div class="table-scroll"><table id="tableMembers"><thead><tr>
+          <th>#</th><th>الاسم</th><th>الهاتف</th><th>المدينة</th><th>الجنس</th><th>نوع المشاركة</th><th>تاريخ التسجيل</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <div id="tab-ideas" class="tab-content" style="display:none">
+      <div class="table-wrapper">
+        <div class="table-header"><h3>الأفكار المقترحة</h3><span id="countIdeas" class="badge badge-secondary">0</span></div>
+        <div class="table-scroll"><table id="tableIdeas"><thead><tr>
+          <th>#</th><th>الاسم</th><th>العنوان</th><th>المجال</th><th>البريد</th><th>التاريخ</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <div id="tab-volunteers" class="tab-content" style="display:none">
+      <div class="table-wrapper">
+        <div class="table-header"><h3>المتطوعون</h3><span id="countVolunteers" class="badge badge-accent">0</span></div>
+        <div class="table-scroll"><table id="tableVolunteers"><thead><tr>
+          <th>#</th><th>الاسم</th><th>الهاتف</th><th>المدينة</th><th>المجالات</th><th>التاريخ</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <div id="tab-supports" class="tab-content" style="display:none">
+      <div class="table-wrapper">
+        <div class="table-header"><h3>الداعمون</h3><span id="countSupports" class="badge badge-primary">0</span></div>
+        <div class="table-scroll"><table id="tableSupports"><thead><tr>
+          <th>#</th><th>الاسم</th><th>الهاتف</th><th>نوع الدعم</th><th>القيمة</th><th>التاريخ</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <div id="tab-contacts" class="tab-content" style="display:none">
+      <div class="table-wrapper">
+        <div class="table-header"><h3>الرسائل والاستفسارات</h3><span id="countContacts" class="badge badge-secondary">0</span></div>
+        <div class="table-scroll"><table id="tableContacts"><thead><tr>
+          <th>#</th><th>الاسم</th><th>البريد</th><th>النوع</th><th>الموضوع</th><th>التاريخ</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 حزب المجتمع المدني المغربي - جميع الحقوق محفوظة</p>
+  <p style="margin-top:0.5rem; font-size:0.85rem; opacity:0.8;">منصة رقمية للمشاركة المدنية والديمقراطية</p>
+</footer>
+
+<script>
+// ============= GOOGLE SHEETS CONFIGURATION =============
+// ⚠️ ضع هنا رابط Google Apps Script Web App الخاص بك
+// اتبع الدليل في ملف GUIDE.md للحصول على هذا الرابط
+const GOOGLE_SHEETS_URL = 'PUT_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+
+// ============= DATA STORAGE =============
+const STORAGE_KEYS = {
+  members: 'hmmm_members',
+  ideas: 'hmmm_ideas',
+  volunteers: 'hmmm_volunteers',
+  supports: 'hmmm_supports',
+  contacts: 'hmmm_contacts'
+};
+
+function loadData(key) {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEYS[key]) || '[]'); }
+  catch(e) { return []; }
+}
+function saveData(key, data) {
+  localStorage.setItem(STORAGE_KEYS[key], JSON.stringify(data));
+}
+
+// ============= GOOGLE SHEETS SUBMISSION =============
+async function sendToGoogleSheets(type, data) {
+  if (!GOOGLE_SHEETS_URL || GOOGLE_SHEETS_URL === 'PUT_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+    console.warn('Google Sheets URL not configured. Data saved locally only.');
+    return { success: false, error: 'URL غير مضبوط - يتم الحفظ محلياً فقط' };
+  }
+  try {
+    const payload = Object.assign({ type: type }, data);
+    const response = await fetch(GOOGLE_SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+      redirect: 'follow'
+    });
+    // mode 'no-cors' لا يسمح بقراءة الجواب، لكن الطلب يصل بنجاح
+    return { success: true };
+  } catch(err) {
+    console.error('Google Sheets error:', err);
+    return { success: false, error: err.message };
+  }
+}
+
+// ============= NAVIGATION =============
+function showSection(section) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-' + section).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.querySelector('.nav-btn[data-section="' + section + '"]');
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (section === 'dashboard') refreshDashboard();
+}
+
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.dataset.url) {
+      window.open(btn.dataset.url, '_blank');
+      return;
+    }
+    if (btn.dataset.section) showSection(btn.dataset.section);
+  });
+});
+
+// ============= ALERTS =============
+function showAlert(type, message) {
+  const id = type === 'success' ? 'alertSuccess' : 'alertError';
+  const el = document.getElementById(id);
+  el.textContent = message;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 4000);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============= FORM HANDLER =============
+function handleFormSubmit(formId, storageKey, successMessage) {
+  document.getElementById(formId).addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = this;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+
+    // تعطيل الزر أثناء الإرسال
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '⏳ جاري الإرسال...';
+    }
+
+    const formData = new FormData(form);
+    const obj = { id: Date.now(), registrationDate: new Date().toLocaleString('ar-MA') };
+    const arrayFields = {};
+
+    for (const [key, value] of formData.entries()) {
+      if (form.querySelectorAll(`[name="${key}"]`).length > 1) {
+        if (!arrayFields[key]) arrayFields[key] = [];
+        arrayFields[key].push(value);
+      } else {
+        obj[key] = value;
+      }
+    }
+    Object.assign(obj, arrayFields);
+    Object.keys(arrayFields).forEach(k => { obj[k] = arrayFields[k].join('، '); });
+
+    // 1) الحفظ المحلي (نسخة احتياطية)
+    const data = loadData(storageKey);
+    data.push(obj);
+    saveData(storageKey, data);
+
+    // 2) الإرسال إلى Google Sheets
+    const result = await sendToGoogleSheets(storageKey, obj);
+
+    // إعادة الزر إلى حالته الأصلية
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnText;
+    }
+
+    if (result.success) {
+      showAlert('success', successMessage + ' ✓ (تم الحفظ في قاعدة البيانات)');
+    } else {
+      // الحفظ المحلي نجح حتى لو فشل Google Sheets
+      showAlert('success', successMessage);
+    }
+    form.reset();
+  });
+}
+
+handleFormSubmit('registrationForm', 'members', '✓ تم تسجيل انخراطك بنجاح! مرحبًا بك في حزب المجتمع المدني المغربي');
+handleFormSubmit('ideaForm', 'ideas', '✓ شكرًا لك! تم استلام فكرتك وسيتم دراستها قريبًا');
+handleFormSubmit('volunteerForm', 'volunteers', '✓ تم تسجيل تطوعك بنجاح! سنتواصل معك قريبًا');
+handleFormSubmit('supportForm', 'supports', '✓ شكرًا لدعمك! تم تسجيل مساهمتك');
+handleFormSubmit('contactForm', 'contacts', '✓ تم استلام رسالتك بنجاح، وسنرد عليك في أقرب وقت');
+
+// ============= DASHBOARD =============
+let charts = {};
+
+function refreshDashboard() {
+  const members = loadData('members');
+  const ideas = loadData('ideas');
+  const volunteers = loadData('volunteers');
+  const supports = loadData('supports');
+  const contacts = loadData('contacts');
+
+  document.getElementById('statMembers').textContent = members.length;
+  document.getElementById('statIdeas').textContent = ideas.length;
+  document.getElementById('statVolunteers').textContent = volunteers.length;
+  document.getElementById('statSupport').textContent = supports.length;
+
+  document.getElementById('countMembers').textContent = members.length;
+  document.getElementById('countIdeas').textContent = ideas.length;
+  document.getElementById('countVolunteers').textContent = volunteers.length;
+  document.getElementById('countSupports').textContent = supports.length;
+  document.getElementById('countContacts').textContent = contacts.length;
+
+  // Tables
+  fillTable('tableMembers', members, m => [m.fullName||'-', m.phone||'-', m.city||'-', m.gender||'-', m.participationType||'-', m.registrationDate]);
+  fillTable('tableIdeas', ideas, m => [m.fullName||'-', m.title||'-', m.category||'-', m.email||'-', m.registrationDate]);
+  fillTable('tableVolunteers', volunteers, m => [m.fullName||'-', m.phone||'-', m.city||'-', m.areas||'-', m.registrationDate]);
+  fillTable('tableSupports', supports, m => [m.fullName||'-', m.phone||'-', m.supportType||'-', (m.amount? m.amount+' درهم' : '-'), m.registrationDate]);
+  fillTable('tableContacts', contacts, m => [m.fullName||'-', m.email||'-', m.messageType||'-', m.subject||'-', m.registrationDate]);
+
+  // Charts
+  renderCharts(members);
+}
+
+function fillTable(tableId, data, rowFn) {
+  const tbody = document.querySelector('#' + tableId + ' tbody');
+  tbody.innerHTML = '';
+  if (data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; color:var(--muted); padding:2rem;">لا توجد بيانات بعد</td></tr>';
+    return;
+  }
+  data.forEach((row, i) => {
+    const tr = document.createElement('tr');
+    const cells = rowFn(row);
+    tr.innerHTML = '<td>' + (i+1) + '</td>' + cells.map(c => '<td>' + c + '</td>').join('');
+    tbody.appendChild(tr);
+  });
+}
+
+function countBy(arr, field) {
+  const counts = {};
+  arr.forEach(item => {
+    const val = item[field];
+    if (!val) return;
+    const values = typeof val === 'string' ? val.split('،').map(s => s.trim()) : [val];
+    values.forEach(v => { if(v) counts[v] = (counts[v] || 0) + 1; });
+  });
+  return counts;
+}
+
+function renderCharts(members) {
+  Object.values(charts).forEach(c => c && c.destroy());
+  charts = {};
+
+  const colors = ['#006233','#c1272d','#f4c430','#10b981','#3b82f6','#8b5cf6','#ec4899','#f59e0b','#06b6d4','#84cc16'];
+
+  // Cities
+  const cityCounts = countBy(members, 'city');
+  charts.cities = new Chart(document.getElementById('chartCities'), {
+    type: 'bar',
+    data: {
+      labels: Object.keys(cityCounts),
+      datasets: [{ label: 'عدد المنخرطين', data: Object.values(cityCounts), backgroundColor: colors }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+  });
+
+  // Participation type
+  const participation = countBy(members, 'participationType');
+  charts.participation = new Chart(document.getElementById('chartParticipation'), {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(participation),
+      datasets: [{ data: Object.values(participation), backgroundColor: colors }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', rtl: true, labels: { font: { family: 'Cairo' } } } } }
+  });
+
+  // Gender
+  const gender = countBy(members, 'gender');
+  charts.gender = new Chart(document.getElementById('chartGender'), {
+    type: 'pie',
+    data: {
+      labels: Object.keys(gender),
+      datasets: [{ data: Object.values(gender), backgroundColor: ['#006233','#c1272d','#f4c430'] }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', rtl: true, labels: { font: { family: 'Cairo' } } } } }
+  });
+
+  // Education
+  const education = countBy(members, 'education');
+  charts.education = new Chart(document.getElementById('chartEducation'), {
+    type: 'bar',
+    data: {
+      labels: Object.keys(education),
+      datasets: [{ label: 'العدد', data: Object.values(education), backgroundColor: '#006233' }]
+    },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } } } }
+  });
+}
+
+// ============= TABS =============
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+    document.getElementById(btn.dataset.tab).style.display = 'block';
+  });
+});
+
+// ============= EXCEL EXPORT/IMPORT =============
+function exportToExcel() {
+  try {
+    const wb = XLSX.utils.book_new();
+    const sheets = [
+      { key: 'members', name: 'المنخرطون' },
+      { key: 'ideas', name: 'الأفكار' },
+      { key: 'volunteers', name: 'المتطوعون' },
+      { key: 'supports', name: 'الدعم' },
+      { key: 'contacts', name: 'الرسائل' }
+    ];
+    let totalRecords = 0;
+    sheets.forEach(sheet => {
+      const data = loadData(sheet.key);
+      totalRecords += data.length;
+      const ws = XLSX.utils.json_to_sheet(data.length ? data : [{ ملاحظة: 'لا توجد بيانات بعد' }]);
+      if (!ws['!cols']) ws['!cols'] = [];
+      if (data.length > 0) {
+        Object.keys(data[0]).forEach((k, i) => { ws['!cols'][i] = { wch: 20 }; });
+      }
+      XLSX.utils.book_append_sheet(wb, ws, sheet.name);
+    });
+
+    const date = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(wb, `بيانات_حزب_المجتمع_المدني_${date}.xlsx`);
+    showAlert('success', `✓ تم تصدير ${totalRecords} سجل إلى ملف Excel بنجاح`);
+  } catch(e) {
+    showAlert('error', 'حدث خطأ أثناء التصدير: ' + e.message);
+  }
+}
+
+function importFromExcel(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const wb = XLSX.read(data, { type: 'array' });
+      const mapping = { 'المنخرطون': 'members', 'الأفكار': 'ideas', 'المتطوعون': 'volunteers', 'الدعم': 'supports', 'الرسائل': 'contacts' };
+      let imported = 0;
+      wb.SheetNames.forEach(name => {
+        const key = mapping[name];
+        if (!key) return;
+        const rows = XLSX.utils.sheet_to_json(wb.Sheets[name]);
+        const existing = loadData(key);
+        const filtered = rows.filter(r => !r.ملاحظة);
+        saveData(key, [...existing, ...filtered]);
+        imported += filtered.length;
+      });
+      showAlert('success', `✓ تم استيراد ${imported} سجل بنجاح`);
+      refreshDashboard();
+    } catch(e) {
+      showAlert('error', 'حدث خطأ أثناء الاستيراد: ' + e.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+  event.target.value = '';
+}
+
+function clearAllData() {
+  if (confirm('⚠️ هل أنت متأكد من مسح جميع البيانات؟ لا يمكن التراجع عن هذه العملية!')) {
+    if (confirm('تأكيد نهائي: سيتم حذف كل المنخرطين والأفكار والمتطوعين والدعم والرسائل. هل تريد المتابعة؟')) {
+      Object.values(STORAGE_KEYS).forEach(k => localStorage.removeItem(k));
+      showAlert('success', '✓ تم مسح جميع البيانات');
+      refreshDashboard();
+    }
+  }
+}
+
+function printDashboard() { window.print(); }
+
+// ============= INIT =============
+refreshDashboard();
+</script>
+</body>
+</html>
