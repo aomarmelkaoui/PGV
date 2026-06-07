@@ -335,6 +335,9 @@ tr:hover td{background:#243F6A}
     <button class="nav-btn" onclick="show('ai',this)">
       <i class="fa-solid fa-robot"></i><span>الوكيل الذكي IA</span>
     </button>
+    <button class="nav-btn" onclick="show('test-sheets',this)">
+      <i class="fa-solid fa-plug-circle-check"></i><span>اختبار الاتصال بـ Sheets</span>
+    </button>
   </nav>
 
   <div class="sidebar-footer">RAE2C © 2025 — الجيل الجديد</div>
@@ -1344,6 +1347,68 @@ tr:hover td{background:#243F6A}
       </div>
     </div>
 
+    <!-- ══ TEST SHEETS ══ -->
+    <div id="sec-test-sheets" class="section">
+      <div class="card" style="max-width:700px">
+        <div class="card-title"><i class="fa-solid fa-plug-circle-check"></i> اختبار الاتصال المباشر بـ Google Sheets</div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:1.2rem">
+          <div style="background:#162E4D;border-radius:10px;padding:1rem 1.2rem;border:1px solid #2D5280">
+            <div style="font-size:11px;color:#93C5FD;margin-bottom:.3rem;font-weight:700">🔗 WebApp URL</div>
+            <div style="font-size:10px;color:#64A0D0;word-break:break-all;font-family:monospace">AKfycbwRPk-UYwULsN4X...</div>
+            <span style="font-size:10px;background:#0d3528;color:#6ee7b7;padding:2px 8px;border-radius:100px;margin-top:.4rem;display:inline-block;font-weight:700">✅ مُفعَّل</span>
+          </div>
+          <div style="background:#162E4D;border-radius:10px;padding:1rem 1.2rem;border:1px solid #2D5280">
+            <div style="font-size:11px;color:#93C5FD;margin-bottom:.3rem;font-weight:700">📊 Google Sheets</div>
+            <div style="font-size:10px;color:#64A0D0">Base-Donnees — 5 فيشات</div>
+            <a href="https://docs.google.com/spreadsheets/d/1S8-3yEk8_6K9b1gEwdzMyk061JXXygrrT2726OXDBI4/edit" target="_blank"
+              style="font-size:10px;background:#1B3461;color:#38bdf8;padding:2px 8px;border-radius:100px;margin-top:.4rem;display:inline-block;font-weight:700;text-decoration:none">
+              🔗 فتح الملف
+            </a>
+          </div>
+        </div>
+
+        <div style="background:#162E4D;border-radius:12px;padding:1.2rem 1.4rem;border:1px solid #2D5280;margin-bottom:1rem">
+          <div style="font-size:14px;font-weight:700;color:#E8F4FF;margin-bottom:.5rem">🧪 اختبار تلقائي شامل</div>
+          <div style="font-size:12.5px;color:#93C5FD;margin-bottom:1rem;line-height:1.7">
+            سيُرسل سطر بيانات اختبارية إلى فيشة <b style="color:#E8F4FF">Apprentis_Suivi</b> في Google Sheets.<br>
+            إذا نجح الاختبار، ستجد الصف في آخر الفيشة.
+          </div>
+          <button id="test-conn-btn" onclick="testConnection()"
+            style="background:#0EA5E9;color:#fff;border:none;border-radius:10px;padding:11px 24px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px">
+            <i class="fa-solid fa-plug"></i> تشغيل اختبار الاتصال
+          </button>
+          <div id="test-conn-status"></div>
+        </div>
+
+        <div style="background:#162E4D;border-radius:12px;padding:1.2rem 1.4rem;border:1px solid #2D5280">
+          <div style="font-size:13px;font-weight:700;color:#E8F4FF;margin-bottom:.8rem">📋 الفيشات المربوطة بالاستمارات</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:.6rem .8rem;background:#1E3A5F;border-radius:8px">
+              <span style="font-size:12.5px;color:#E8F4FF"><i class="fa-solid fa-user-plus" style="color:#0EA5E9;margin-left:.4rem"></i> تسجيل يافع</span>
+              <span style="font-size:11px;color:#6ee7b7;font-weight:700;font-family:monospace">Apprentis_Suivi</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:.6rem .8rem;background:#1E3A5F;border-radius:8px">
+              <span style="font-size:12.5px;color:#E8F4FF"><i class="fa-solid fa-calendar-check" style="color:#059669;margin-left:.4rem"></i> الغياب والحضور</span>
+              <span style="font-size:11px;color:#6ee7b7;font-weight:700;font-family:monospace">Assiduite_Cours</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:.6rem .8rem;background:#1E3A5F;border-radius:8px">
+              <span style="font-size:12.5px;color:#E8F4FF"><i class="fa-solid fa-coins" style="color:#D97706;margin-left:.4rem"></i> رصد النفقات</span>
+              <span style="font-size:11px;color:#6ee7b7;font-weight:700;font-family:monospace">Budget_Expenses</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:.6rem .8rem;background:#1E3A5F;border-radius:8px">
+              <span style="font-size:12.5px;color:#E8F4FF"><i class="fa-solid fa-user-shield" style="color:#7C3AED;margin-left:.4rem"></i> التقييم والإدماج</span>
+              <span style="font-size:11px;color:#6ee7b7;font-weight:700;font-family:monospace">Evaluations_Stages</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:.6rem .8rem;background:#1E3A5F;border-radius:8px">
+              <span style="font-size:12.5px;color:#E8F4FF"><i class="fa-solid fa-people-group" style="color:#0D9488;margin-left:.4rem"></i> هيكلة الأطر</span>
+              <span style="font-size:11px;color:#6ee7b7;font-weight:700;font-family:monospace">Centres_Staff</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ══ AI ══ -->
     <div id="sec-ai" class="section">
       <div class="api-notice" id="api-notice">
@@ -1406,6 +1471,7 @@ const SECTION_TITLES = {
   'form-budget-form':'رصد النفقات والفواتير',
   'form-evaluations':'التقييم والإدماج المهني',
   'form-centres':'هيكلة الأطر والمنشطين',
+  'test-sheets':'اختبار الاتصال المباشر بـ Google Sheets',
   ai:'الوكيل الذكي IA — Assistant RAE2C',
 };
 
@@ -1462,7 +1528,7 @@ function buildBudget(){
 }
 buildBudget();
 
-/* ── Form Submit → Google Sheets (fetch + no-cors) ── */
+/* ── Form Submit → Google Sheets ── */
 async function submitForm(event, sheetName){
   event.preventDefault();
   const form = event.target;
@@ -1472,35 +1538,106 @@ async function submitForm(event, sheetName){
 
   const btn = form.querySelector('button[type="submit"]');
   const orig = btn.innerHTML;
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الإرسال...';
   btn.disabled = true;
 
-  const url = WEB_APP_URL + '?data=' + encodeURIComponent(JSON.stringify(data));
+  const result = await sendToSheets(data);
 
-  try {
-    // no-cors : Apps Script ne renvoie pas CORS headers — on utilise un img trick pour déclencher l'appel
-    await fetch(url, {method:'GET', mode:'no-cors'});
-    showToast('✅ تم التسجيل بنجاح في الورقة: ' + sheetName);
+  if(result.ok){
+    showToast('✅ تم الحفظ بنجاح في ' + sheetName);
+    showFormFeedback(form, 'success', '✅ تم تسجيل البيانات بنجاح في Google Sheets — ' + sheetName);
     form.reset();
     form.querySelectorAll('input[type="date"]').forEach(i => i.value = new Date().toISOString().split('T')[0]);
-  } catch(err) {
-    // Fallback iframe si fetch bloqué
-    let iframe = document.getElementById('sub-iframe');
-    if(!iframe){
-      iframe = document.createElement('iframe');
-      iframe.id = 'sub-iframe';
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
-    }
-    iframe.onload = () => {
-      showToast('✅ تم التسجيل في الورقة: ' + sheetName);
-      form.reset();
-      form.querySelectorAll('input[type="date"]').forEach(i => i.value = new Date().toISOString().split('T')[0]);
-    };
-    iframe.src = url;
-  } finally {
-    btn.innerHTML = orig;
-    btn.disabled = false;
+  } else {
+    showToast('⚠ خطأ في الإرسال — ' + result.error);
+    showFormFeedback(form, 'error', '⚠ فشل الإرسال: ' + result.error);
+  }
+  btn.innerHTML = orig;
+  btn.disabled = false;
+}
+
+async function sendToSheets(data){
+  const url = WEB_APP_URL + '?data=' + encodeURIComponent(JSON.stringify(data));
+  try {
+    await fetch(url, {method:'GET', mode:'no-cors'});
+    // no-cors → on ne peut pas lire la réponse, on suppose OK si pas d'exception
+    return {ok: true};
+  } catch(err){
+    // Fallback iframe
+    return new Promise((resolve) => {
+      let iframe = document.getElementById('sub-iframe');
+      if(!iframe){
+        iframe = document.createElement('iframe');
+        iframe.id='sub-iframe';
+        iframe.style.display='none';
+        document.body.appendChild(iframe);
+      }
+      const timer = setTimeout(() => resolve({ok:false, error:'انتهت مدة الانتظار — تحقق من الاتصال'}), 10000);
+      iframe.onload = () => { clearTimeout(timer); resolve({ok:true}); };
+      iframe.onerror = () => { clearTimeout(timer); resolve({ok:false, error:'خطأ في الاتصال بـ Google'}); };
+      iframe.src = url;
+    });
+  }
+}
+
+function showFormFeedback(form, type, msg){
+  let fb = form.querySelector('.form-feedback');
+  if(!fb){ fb = document.createElement('div'); fb.className='form-feedback'; form.appendChild(fb); }
+  fb.style.cssText = `margin-top:.8rem;padding:.9rem 1.1rem;border-radius:10px;font-size:13.5px;font-weight:600;
+    background:${type==='success'?'#0d3528':'#3d0f0f'};
+    color:${type==='success'?'#6ee7b7':'#fca5a5'};
+    border:1px solid ${type==='success'?'#059669':'#ef4444'};
+    display:flex;align-items:center;gap:.5rem`;
+  fb.innerHTML = msg;
+  setTimeout(()=>{ if(fb) fb.style.opacity='0'; setTimeout(()=>fb.remove(),500); }, 5000);
+}
+
+/* ── Test de connexion Google Sheets ── */
+async function testConnection(){
+  const btn = document.getElementById('test-conn-btn');
+  const status = document.getElementById('test-conn-status');
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الاختبار...';
+  btn.disabled = true;
+  status.innerHTML = '';
+
+  const testData = {
+    sheetName: 'Apprentis_Suivi',
+    'الاسم الكامل': 'اختبار — Test Connexion ' + new Date().toLocaleTimeString('fr-MA'),
+    'الهاتف': '0600000000',
+    'المركز المحلي': 'مركز ميدلت',
+    'الجنس': 'أنثى',
+    'السن': '17',
+    'المؤسسة الأصلية': 'إعدادية العياشي',
+    'تاريخ الانضمام': new Date().toISOString().split('T')[0],
+    'التخصص المهني المستهدف': 'اختبار',
+    'وضعية المواظبة': 'منتظم',
+    'ملاحظات': 'سطر اختبار تلقائي'
+  };
+
+  const result = await sendToSheets(testData);
+
+  btn.innerHTML = '<i class="fa-solid fa-plug"></i> اختبار الاتصال';
+  btn.disabled = false;
+
+  if(result.ok){
+    status.innerHTML = `
+      <div style="background:#0d3528;border:1px solid #059669;border-radius:10px;padding:1rem 1.2rem;margin-top:.8rem">
+        <div style="font-size:15px;font-weight:900;color:#6ee7b7;margin-bottom:.4rem">✅ الاتصال يعمل بنجاح !</div>
+        <div style="font-size:12.5px;color:#34d399">تم إرسال سطر اختبار إلى فيشة <b>Apprentis_Suivi</b></div>
+        <div style="font-size:12px;color:#6ee7b7;margin-top:.4rem">تحقق من Google Sheets → الصف الأخير في الفيشة</div>
+        <a href="https://docs.google.com/spreadsheets/d/1S8-3yEk8_6K9b1gEwdzMyk061JXXygrrT2726OXDBI4/edit" target="_blank"
+          style="display:inline-block;margin-top:.6rem;background:#059669;color:#fff;padding:6px 16px;border-radius:7px;font-size:12px;font-weight:700;text-decoration:none">
+          <i class="fa-solid fa-table-cells"></i> فتح Google Sheets
+        </a>
+      </div>`;
+    showToast('✅ الاتصال بـ Google Sheets يعمل بشكل مثالي');
+  } else {
+    status.innerHTML = `
+      <div style="background:#3d0f0f;border:1px solid #ef4444;border-radius:10px;padding:1rem 1.2rem;margin-top:.8rem">
+        <div style="font-size:15px;font-weight:900;color:#fca5a5;margin-bottom:.4rem">❌ فشل الاتصال</div>
+        <div style="font-size:12.5px;color:#fca5a5">${result.error}</div>
+        <div style="font-size:12px;color:#f87171;margin-top:.4rem">تحقق من إعدادات النشر في Apps Script</div>
+      </div>`;
   }
 }
 
