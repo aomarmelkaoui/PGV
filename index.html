@@ -1378,7 +1378,7 @@ tr:hover td{background:#243F6A}
 <div class="toast" id="toast"></div>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby5BKlZlbDxUfvbnJQmIOumKzmcGkh57BN2tlHYkJVA5wcx43dbrsfS50p9gZC513OjSA/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwRPk-UYwULsN4XbhErSFU3QRJXCTp0AEismpNVveqZo8YSG3fCr0RNgaZhuylv6NCC/exec";
 let apiKey = '';
 let aiHistory = [];
 
@@ -1462,32 +1462,46 @@ function buildBudget(){
 }
 buildBudget();
 
-/* ── Form Submit (Google Sheets via iframe) ── */
-function submitForm(event, sheetName){
+/* ── Form Submit → Google Sheets (fetch + no-cors) ── */
+async function submitForm(event, sheetName){
   event.preventDefault();
   const form = event.target;
   const fd = new FormData(form);
   const data = {sheetName};
   fd.forEach((v,k) => data[k] = v.trim ? v.trim() : v);
+
   const btn = form.querySelector('button[type="submit"]');
   const orig = btn.innerHTML;
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
   btn.disabled = true;
-  let iframe = document.getElementById('sub-iframe');
-  if(!iframe){
-    iframe = document.createElement('iframe');
-    iframe.id = 'sub-iframe';
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-  }
-  iframe.onload = () => {
-    showToast('✅ تم تسجيل البيانات بنجاح في الورقة: ' + sheetName);
+
+  const url = WEB_APP_URL + '?data=' + encodeURIComponent(JSON.stringify(data));
+
+  try {
+    // no-cors : Apps Script ne renvoie pas CORS headers — on utilise un img trick pour déclencher l'appel
+    await fetch(url, {method:'GET', mode:'no-cors'});
+    showToast('✅ تم التسجيل بنجاح في الورقة: ' + sheetName);
     form.reset();
     form.querySelectorAll('input[type="date"]').forEach(i => i.value = new Date().toISOString().split('T')[0]);
+  } catch(err) {
+    // Fallback iframe si fetch bloqué
+    let iframe = document.getElementById('sub-iframe');
+    if(!iframe){
+      iframe = document.createElement('iframe');
+      iframe.id = 'sub-iframe';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+    }
+    iframe.onload = () => {
+      showToast('✅ تم التسجيل في الورقة: ' + sheetName);
+      form.reset();
+      form.querySelectorAll('input[type="date"]').forEach(i => i.value = new Date().toISOString().split('T')[0]);
+    };
+    iframe.src = url;
+  } finally {
     btn.innerHTML = orig;
     btn.disabled = false;
-  };
-  iframe.src = WEB_APP_URL + '?data=' + encodeURIComponent(JSON.stringify(data));
+  }
 }
 
 /* ── Toast ── */
