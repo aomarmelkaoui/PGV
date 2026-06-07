@@ -1,264 +1,1579 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منظومة الجيل الجديد - شبكة مدارس الفرصة الثانية</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
-        body { font-family: 'Tajawal', sans-serif; }
-        .active-menu { background-color: #1e40af !important; color: #ffffff !important; border-right: 4px solid #38bdf8; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAE2C — منظومة الجيل الجديد | Province de Midelt</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+  --red:#C0392B;--red-dark:#922B21;--red-light:#FDECEA;
+  --navy:#0D1B2E;--navy2:#122038;--navy3:#1A3355;
+  --sky:#0EA5E9;--sky-light:#E0F2FE;
+  --teal:#0D9488;--teal-light:#CCFBF1;
+  --amber:#D97706;--amber-light:#FEF3C7;
+  --green:#059669;--green-light:#D1FAE5;
+  --purple:#7C3AED;--purple-light:#EDE9FE;
+  --bg:#DBEAFE;--white:#1E3A5F;
+  --text:#E8F4FF;--muted:#93C5FD;--border:#2D5280;
+  --sidebar:280px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);display:flex}
+
+/* ══ SIDEBAR ══ */
+aside{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--navy);
+  display:flex;flex-direction:column;
+  height:100vh;overflow:hidden;
+  box-shadow:4px 0 24px rgba(0,0,0,.25);
+  position:relative;z-index:10;
+}
+.sidebar-logo{
+  padding:1.1rem 1.2rem;
+  background:linear-gradient(135deg,var(--navy2),var(--navy3));
+  border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;gap:.75rem;
+}
+.logo-icon{
+  width:50px;height:50px;border-radius:10px;
+  background:var(--red);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22.5px;color:#fff;flex-shrink:0;
+}
+.logo-text h1{font-size:15px;font-weight:900;color:#fff;line-height:1.2}
+.logo-text p{font-size:12.5px;color:var(--sky);font-weight:500;margin-top:2px}
+
+.sidebar-section-label{
+  font-size:11.2px;font-weight:700;letter-spacing:.1em;
+  color:rgba(148,163,184,.5);text-transform:uppercase;
+  padding:.9rem 1.2rem .3rem;
+}
+.nav-btn{
+  display:flex;align-items:center;gap:.7rem;
+  width:100%;padding:.65rem 1.2rem;
+  font-family:inherit;font-size:14.4px;font-weight:500;
+  color:rgba(148,163,184,.85);
+  background:none;border:none;cursor:pointer;
+  border-right:3px solid transparent;
+  transition:all .18s;text-align:right;
+  border-radius:0;
+}
+.nav-btn:hover{background:rgba(255,255,255,.05);color:#fff}
+.nav-btn.active{
+  background:rgba(14,165,233,.12);
+  color:var(--sky);
+  border-right-color:var(--sky);
+  font-weight:700;
+}
+.nav-btn i{width:20px;font-size:16.2px;flex-shrink:0}
+.sidebar-footer{
+  padding:1rem 1.2rem;
+  border-top:1px solid rgba(255,255,255,.07);
+  font-size:12.5px;color:rgba(148,163,184,.4);
+  text-align:center;
+}
+
+/* ══ MAIN ══ */
+.main-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{
+  height:72.5px;background:#1B3461;
+  border-bottom:1px solid #2D5280;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 1.5rem;flex-shrink:0;
+  box-shadow:0 1px 8px rgba(0,0,0,.25);
+}
+.topbar-title{font-size:17.5px;font-weight:700;color:#E8F4FF}
+.topbar-meta{display:flex;align-items:center;gap:.8rem}
+.topbar-badge{
+  font-size:12.5px;font-weight:700;
+  padding:3px 10px;border-radius:100px;
+}
+.badge-red{background:var(--red-light);color:var(--red)}
+.badge-sky{background:var(--sky-light);color:var(--sky)}
+.badge-teal{background:var(--teal-light);color:var(--teal)}
+.badge-green{background:var(--green-light);color:var(--green)}
+.badge-amber{background:var(--amber-light);color:var(--amber)}
+.badge-purple{background:var(--purple-light);color:var(--purple)}
+
+.content-area{flex:1;overflow-y:auto;padding:1.5rem}
+.section{display:none}
+.section.active{display:block}
+
+/* ══ CARDS & KPI ══ */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;margin-bottom:1.5rem}
+.kpi-card{
+  background:#1E3A5F;border-radius:12px;
+  padding:1.1rem 1.3rem;
+  border:1px solid #2D5280;
+  display:flex;flex-direction:column;gap:6px;
+  transition:box-shadow .2s;
+}
+.kpi-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.kpi-top{display:flex;align-items:center;justify-content:space-between}
+.kpi-icon{
+  width:47.5px;height:47.5px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+}
+.kpi-num{font-size:32.5px;font-weight:900;line-height:1}
+.kpi-label{font-size:13.8px;color:#93C5FD;font-weight:500}
+.kpi-sub{font-size:12.5px;color:#64A0D0}
+
+.card{
+  background:#1E3A5F;border-radius:14px;
+  border:1px solid #2D5280;padding:1.3rem 1.5rem;
+  margin-bottom:1.2rem;
+}
+.card-title{
+  font-size:16.2px;font-weight:700;color:#E8F4FF;
+  margin-bottom:1rem;padding-bottom:.7rem;
+  border-bottom:1px solid #2D5280;
+  display:flex;align-items:center;gap:.5rem;
+}
+.card-title i{color:var(--sky)}
+
+/* Hero Banner */
+.hero-banner{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy3) 60%,#1e4080 100%);
+  color:#fff;border-radius:16px;padding:1.5rem 2rem;
+  margin-bottom:1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;
+}
+.hero-text h2{font-size:22.5px;font-weight:900;margin-bottom:.3rem}
+.hero-text p{font-size:15px;color:rgba(255,255,255,.65);line-height:1.6;max-width:625px}
+.hero-stats{display:flex;gap:1.5rem;flex-shrink:0}
+.hs{text-align:center}
+.hs-num{font-size:27.5px;font-weight:900;color:var(--sky)}
+.hs-label{font-size:11.2px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.04em}
+
+/* Progress bars */
+.prog-wrap{margin-bottom:.9rem}
+.prog-head{display:flex;justify-content:space-between;margin-bottom:4px;font-size:14.4px;font-weight:500;color:#D4EBFF}
+.prog-bar{height:8.8px;background:#2D5280;border-radius:100px;overflow:hidden}
+.prog-fill{height:100%;border-radius:100px;transition:width 1s ease}
+
+/* Domain tabs */
+.domain-tabs{display:flex;gap:6px;margin-bottom:1.2rem;flex-wrap:wrap}
+.dtab{
+  padding:6px 14px;border-radius:8px;font-size:13.8px;font-weight:600;
+  cursor:pointer;border:1.5px solid var(--border);background:var(--white);
+  color:var(--muted);transition:all .18s;
+}
+.dtab.active,.dtab:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+/* Tables */
+.tbl-wrap{overflow-x:auto;border-radius:10px;border:1px solid #2D5280}
+table{width:100%;border-collapse:collapse;font-size:15px}
+thead{background:#162E4D}
+th{padding:9px 14px;font-weight:700;font-size:13.1px;color:#93C5FD;border-bottom:1.5px solid #2D5280;white-space:nowrap;text-align:right}
+td{padding:9px 14px;border-bottom:.5px solid #2D5280;vertical-align:middle;color:#D4EBFF}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#243F6A}
+.tag{display:inline-block;font-size:12.5px;padding:2px 9px;border-radius:100px;font-weight:700}
+
+/* Forms */
+.form-card{background:#1E3A5F;border-radius:14px;border:1px solid #2D5280;padding:1.5rem;max-width:1025px;margin-bottom:1.2rem}
+.form-title{font-size:17.5px;font-weight:700;color:#E8F4FF;margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:1px solid #2D5280;display:flex;align-items:center;gap:.6rem}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:1rem}
+.form-full{grid-column:1/-1}
+.field label{display:block;font-size:13.8px;font-weight:700;color:#93C5FD;margin-bottom:4px}
+.field input,.field select,.field textarea{
+  width:100%;padding:9px 12px;font-family:inherit;font-size:15.6px;
+  border:1.5px solid #2D5280;border-radius:8px;
+  background:#162E4D;color:#E8F4FF;outline:none;transition:border-color .18s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--sky);background:#1A3560}
+.field input::placeholder,.field textarea::placeholder{color:#5580A0}
+.field select option{background:#1E3A5F;color:#E8F4FF}
+.btn-submit{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--navy);color:#fff;border:none;border-radius:9px;
+  padding:10px 22px;font-family:inherit;font-size:15.6px;font-weight:700;
+  cursor:pointer;transition:background .18s;margin-top:.5rem;
+}
+.btn-submit:hover{background:var(--navy3)}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#162E4D;color:#D4EBFF;border:1.5px solid #2D5280;border-radius:9px;
+  padding:9px 18px;font-family:inherit;font-size:15px;font-weight:600;
+  cursor:pointer;transition:all .18s;
+}
+.btn-secondary:hover{background:#2D5280}
+
+/* Budget */
+.budget-ring-wrap{display:flex;align-items:center;gap:2rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.budget-legend{flex:1;min-width:250px}
+.bleg-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:.5px solid var(--border);font-size:14.4px}
+.bleg-dot{width:12.5px;height:12.5px;border-radius:50%;flex-shrink:0}
+.bleg-label{flex:1;color:var(--text)}
+.bleg-amount{font-weight:700;color:var(--navy)}
+
+/* Indicators */
+.ind-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.ind-card{background:#162E4D;border-radius:12px;border:1px solid #2D5280;padding:1.1rem 1.3rem;color:#D4EBFF}
+.ind-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.8rem;gap:.5rem}
+.ind-title{font-size:15px;font-weight:700;color:var(--navy);line-height:1.4}
+.ind-body{display:flex;align-items:baseline;gap:6px;margin-bottom:.6rem}
+.ind-val{font-size:35px;font-weight:900}
+.ind-target{font-size:13.8px;color:var(--muted)}
+
+/* AI Chat */
+.ai-wrap{background:#1E3A5F;border-radius:14px;border:1px solid #2D5280;overflow:hidden;max-width:1025px}
+.ai-head{background:var(--navy);padding:.9rem 1.2rem;display:flex;align-items:center;gap:.6rem}
+.ai-dot{width:10px;height:10px;border-radius:50%;background:#22d3ee;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.ai-head-text{font-size:15.6px;font-weight:700;color:#fff}
+.ai-head-sub{font-size:12.5px;color:rgba(255,255,255,.5);margin-right:auto}
+.api-notice{background:#3D2A00;border:1px solid var(--amber);border-radius:10px;padding:1rem 1.2rem;margin:1rem;font-size:15px;color:#FCD34D}
+.api-notice.hidden{display:none}
+.api-notice strong{display:block;font-size:16.2px;margin-bottom:4px}
+.api-key-row{display:flex;gap:8px;margin-top:8px}
+.api-key-row input{flex:1;padding:8px 12px;border:1.5px solid var(--amber);border-radius:7px;font-family:monospace;font-size:13.8px;background:#fff;outline:none}
+.api-key-row button{background:var(--amber);color:#fff;border:none;border-radius:7px;padding:8px 14px;cursor:pointer;font-family:inherit;font-size:13.8px;font-weight:700;white-space:nowrap}
+.ai-messages{padding:1rem 1.2rem;min-height:250px;max-height:525px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;background:#162E4D}
+.ai-bubble{max-width:82%;padding:9px 14px;border-radius:12px;font-size:15.6px;line-height:1.6}
+.ai-bubble.bot{background:#1E3A5F;color:#D4EBFF;border:1px solid #2D5280;align-self:flex-end;border-bottom-right-radius:3px}
+.ai-bubble.user{background:#0EA5E9;color:#fff;align-self:flex-start;border-bottom-left-radius:3px}
+.ai-thinking{font-size:15px;color:#93C5FD;align-self:flex-end;padding:4px 0;font-style:italic}
+.ai-input-row{display:flex;border-top:1px solid #2D5280;background:#1E3A5F}
+.ai-inp{flex:1;border:none;padding:12px 14px;font-family:inherit;font-size:15.6px;outline:none;background:transparent;color:#E8F4FF}
+.ai-inp::placeholder{color:#5580A0}
+.ai-send{background:var(--red);color:#fff;border:none;padding:0 20px;cursor:pointer;font-family:inherit;font-size:15.6px;font-weight:700;transition:background .18s;white-space:nowrap}
+.ai-send:hover{background:var(--red-dark)}
+
+/* Toast */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:var(--navy);color:#fff;padding:10px 20px;border-radius:10px;font-size:15.6px;opacity:0;pointer-events:none;transition:all .3s;transform:translateY(10px)}
+.toast.show{opacity:1;transform:translateY(0)}
+
+::-webkit-scrollbar{width:6.2px;height:6.2px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#2D5280;border-radius:10px}
+
+/* Domain tabs */
+.domain-tabs{display:flex;gap:6px;margin-bottom:1.2rem;flex-wrap:wrap}
+.dtab{
+  padding:6px 14px;border-radius:8px;font-size:13.8px;font-weight:600;
+  cursor:pointer;border:1.5px solid #2D5280;background:#162E4D;
+  color:#93C5FD;transition:all .18s;
+}
+.dtab.active,.dtab:hover{background:var(--sky);color:#fff;border-color:var(--sky)}
+.alert{border-radius:10px;padding:.8rem 1.1rem;font-size:15.6px;display:flex;align-items:flex-start;gap:.6rem;margin-bottom:1rem}
+.alert-info{background:#163450;color:#93C5FD;border:1px solid #2D5280}
+.alert-success{background:#0D3528;color:#6EE7B7;border:1px solid #065f46}
+.alert-warn{background:#3D2A00;color:#FCD34D;border:1px solid #92400e}
+
+/* Responsive */
+@media(max-width:960px){
+  aside{width:75px}
+  .logo-text,.nav-btn span,.sidebar-section-label,.sidebar-footer{display:none}
+  .nav-btn{justify-content:center;padding:.65rem}
+  .nav-btn i{width:auto}
+  .hero-stats{display:none}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
 </head>
-<body class="bg-slate-100 text-slate-800 antialiased flex h-screen overflow-hidden">
+<body>
 
-    <aside class="w-72 bg-blue-950 text-slate-300 flex flex-col shadow-2xl z-20">
-        <div class="p-5 bg-blue-990 flex items-center gap-3 border-b border-blue-900">
-            <div class="bg-sky-500 text-white font-bold p-2 rounded-xl text-center w-11 h-11 flex items-center justify-center text-lg shadow-md shadow-sky-500/20">
-                <i class="fa-solid fa-school"></i>
-            </div>
+<!-- ══════════════════ SIDEBAR ══════════════════ -->
+<aside>
+  <div class="sidebar-logo">
+    <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+    <div class="logo-text">
+      <h1>شبكة مدارس الفرصة الثانية</h1>
+      <p>RAE2C — إقليم ميدلت</p>
+    </div>
+  </div>
+
+  <nav style="flex:1;overflow-y:auto;padding:.5rem 0">
+    <div class="sidebar-section-label">الرصد والقيادة</div>
+    <button class="nav-btn active" onclick="show('dashboard',this)">
+      <i class="fa-solid fa-chart-pie"></i><span>لوحة القيادة الشاملة</span>
+    </button>
+    <button class="nav-btn" onclick="show('indicateurs',this)">
+      <i class="fa-solid fa-gauge-high"></i><span>إطار تتبع المؤشرات</span>
+    </button>
+    <button class="nav-btn" onclick="show('budget',this)">
+      <i class="fa-solid fa-coins"></i><span>الميزانية والنفقات</span>
+    </button>
+
+    <div class="sidebar-section-label">برامج العمل</div>
+    <button class="nav-btn" onclick="show('domaine1',this)">
+      <i class="fa-solid fa-eye"></i><span>المجال 1 — اليقظة التربوية</span>
+    </button>
+    <button class="nav-btn" onclick="show('domaine2',this)">
+      <i class="fa-solid fa-school"></i><span>المجال 2 — مراكز الفرصة الثانية</span>
+    </button>
+    <button class="nav-btn" onclick="show('domaine3',this)">
+      <i class="fa-solid fa-handshake"></i><span>المجال 3 — الإدماج والتتبع</span>
+    </button>
+
+    <div class="sidebar-section-label">استمارات البيانات</div>
+    <button class="nav-btn" onclick="show('form-apprentis',this)">
+      <i class="fa-solid fa-user-plus"></i><span>تسجيل يافع(ة) جديد</span>
+    </button>
+    <button class="nav-btn" onclick="show('form-assiduite',this)">
+      <i class="fa-solid fa-calendar-check"></i><span>تتبع الغياب والحضور</span>
+    </button>
+    <button class="nav-btn" onclick="show('form-budget-form',this)">
+      <i class="fa-solid fa-file-invoice-dollar"></i><span>رصد النفقات</span>
+    </button>
+    <button class="nav-btn" onclick="show('form-evaluations',this)">
+      <i class="fa-solid fa-user-shield"></i><span>التقييم والإدماج</span>
+    </button>
+    <button class="nav-btn" onclick="show('form-centres',this)">
+      <i class="fa-solid fa-people-group"></i><span>هيكلة الأطر والمراكز</span>
+    </button>
+
+    <div class="sidebar-section-label">الأدوات الذكية</div>
+    <button class="nav-btn" onclick="show('ai',this)">
+      <i class="fa-solid fa-robot"></i><span>الوكيل الذكي IA</span>
+    </button>
+  </nav>
+
+  <div class="sidebar-footer">RAE2C © 2025 — الجيل الجديد</div>
+</aside>
+
+<!-- ══════════════════ MAIN ══════════════════ -->
+<div class="main-wrap">
+  <div class="topbar">
+    <h2 class="topbar-title" id="page-title">لوحة القيادة الشاملة والمؤشرات الاستراتيجية</h2>
+    <div class="topbar-meta">
+      <span class="topbar-badge badge-red">إقليم ميدلت</span>
+      <span class="topbar-badge badge-sky">4 مراكز</span>
+      <span class="topbar-badge badge-teal">الموسم 2025-2026</span>
+      <span class="topbar-badge badge-green" id="clock-badge">—</span>
+    </div>
+  </div>
+
+  <div class="content-area" id="main-content">
+
+    <!-- ══ DASHBOARD ══ -->
+    <div id="sec-dashboard" class="section active">
+      <div class="hero-banner">
+        <div class="hero-text">
+          <h2>النظام الموحد لمدارس الجيل الجديد — مدارس الفرصة الثانية</h2>
+          <p>منصة رقمية متكاملة لتدبير وتتبع مراكز الفرصة الثانية والتأهيل المهني بإقليم ميدلت — 3 مجالات، 8 مراكز، ميزانية 1.200.000 درهم</p>
+        </div>
+        <div class="hero-stats">
+          <div class="hs"><div class="hs-num">60</div><div class="hs-label">مستفيداً مستهدفاً</div></div>
+          <div class="hs"><div class="hs-num">1.2M</div><div class="hs-label">درهم ميزانية</div></div>
+          <div class="hs"><div class="hs-num">80%</div><div class="hs-label">هدف الإدماج</div></div>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-top">
             <div>
-                <h1 class="text-sm font-black text-white tracking-wide">شبكة مدارس الفرصة الثانية</h1>
-                <p class="text-[10px] text-sky-400 font-bold">المنصة الإقليمية - ميدلت</p>
+              <div class="kpi-num" style="color:var(--sky)">4</div>
+              <div class="kpi-label">مراكز نشيطة</div>
             </div>
+            <div class="kpi-icon" style="background:var(--sky-light);color:var(--sky)"><i class="fa-solid fa-school"></i></div>
+          </div>
+          <div class="kpi-sub">ميدلت، أيت امغار، أيت ازدك، امرصيد</div>
         </div>
-        
-        <nav class="flex-1 p-4 space-y-1 overflow-y-auto" id="sidebar-nav">
-            <p class="text-[10px] font-bold text-sky-500/70 uppercase tracking-wider px-3 mb-2">الرصد والمؤشرات</p>
-            
-            <button onclick="showSection('dashboard', this)" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-semibold transition-all hover:bg-blue-900/50 active-menu">
-                <i class="fa-solid fa-chart-pie text-base w-5"></i> لوحة القيادة العامة
-            </button>
-
-            <p class="text-[10px] font-bold text-sky-500/70 uppercase tracking-wider px-3 pt-5 mb-2">استمارات تدبير البيانات</p>
-
-            <button onclick="showSection('form-apprentis', this)" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-medium transition-all hover:bg-blue-900/50 text-slate-400">
-                <i class="fa-solid fa-user-plus text-base w-5"></i> تسجيل يافع جديد (Apprentis_Suivi)
-            </button>
-
-            <button onclick="showSection('form-assiduite', this)" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-medium transition-all hover:bg-blue-900/50 text-slate-400">
-                <i class="fa-solid fa-calendar-check text-base w-5"></i> تتبع الغياب والحضور (Assiduite_Cours)
-            </button>
-
-            <button onclick="showSection('form-budget', this)" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-medium transition-all hover:bg-blue-900/50 text-slate-400">
-                <i class="fa-solid fa-file-invoice-dollar text-base w-5"></i> الميزانية والنفقات (Budget_Expenses)
-            </button>
-
-            <button onclick="showSection('form-evaluations', this)" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-medium transition-all hover:bg-blue-900/50 text-slate-400">
-                <i class="fa-solid fa-user-shield text-base w-5"></i> التقييم والإدماج المهني (Evaluations_Stages)
-            </button>
-            
-            <button onclick="showSection('form-centres', this)" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-medium transition-all hover:bg-blue-900/50 text-slate-400">
-                <i class="fa-solid fa-school text-base w-5"></i> هيكلة المراكز والأطر (Centres_Staff)
-            </button>
-        </nav>
-    </aside>
-
-    <div class="flex-1 flex flex-col overflow-hidden">
-        <header class="bg-white h-16 shadow-xs border-b border-slate-200 flex items-center justify-between px-6 z-10">
-            <h2 id="page-title" class="text-base font-bold text-blue-950">لوحة القيادة العامة والمؤشرات الاستراتيجية</h2>
-        </header>
-
-        <div class="flex-1 overflow-y-auto p-6" id="main-container">
-
-            <div id="section-dashboard" class="content-section space-y-6">
-                <div class="bg-gradient-to-l from-blue-900 to-blue-800 text-white p-6 rounded-2xl shadow-lg">
-                    <h3 class="text-lg font-black">النظام المعلوماتي الموحد لمدارس الجيل الجديد</h3>
-                    <p class="text-xs text-blue-200 mt-1">تم ربط وتنشيط الواجهة بشكل قطعي على خادم جوجل السحابي الجديد لتجنب حظر البيانات.</p>
-                </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div>
+              <div class="kpi-num" style="color:var(--green)">60</div>
+              <div class="kpi-label">مستفيد/ة مسجل</div>
             </div>
-
-            <div id="section-form-apprentis" class="content-section hidden max-w-2xl bg-white p-6 rounded-xl border border-slate-200 shadow-md">
-                <h3 class="text-sm font-bold text-blue-950 mb-4 border-b pb-2"><i class="fa-solid fa-user-plus text-sky-500 ml-2"></i> تقييد بيانات يافع(ة) جديد بالشبكة</h3>
-                <form class="space-y-4" onsubmit="submitForm(event, 'Apprentis_Suivi')">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">الاسم الكامل:</label>
-                            <input type="text" name="الاسم الكامل" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">المركز المحلي:</label>
-                            <select name="المركز المحلي" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                                <option>مركز ميدلت</option><option>مركز أيت امغار</option><option>مركز أيت ازدك</option><option>مركز امرصيد</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">الجنس:</label>
-                            <select name="الجنس" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none"><option>ذكر</option><option>أنثى</option></select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">السن:</label>
-                            <input type="number" name="السن" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">المؤسسة الأصلية:</label>
-                            <select name="المؤسسة الأصلية" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                                <option>إعدادية العياشي</option><option>إعدادية بوعياش</option><option>إعدادية القيروان</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button type="submit" class="bg-blue-900 hover:bg-blue-950 text-white font-bold px-5 py-2.5 rounded-lg text-xs transition-all">إرسال وتخزين فوري</button>
-                </form>
-            </div>
-
-            <div id="section-form-assiduite" class="content-section hidden max-w-2xl bg-white p-6 rounded-xl border border-slate-200 shadow-md">
-                <h3 class="text-sm font-bold text-blue-950 mb-4 border-b pb-2"><i class="fa-solid fa-calendar-check text-sky-500 ml-2"></i> سجل المراقبة اليومية والمواظبة</h3>
-                <form class="space-y-4" onsubmit="submitForm(event, 'Assiduite_Cours')">
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">تاريخ اليوم:</label>
-                            <input type="date" name="تاريخ اليوم" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">الاسم الكامل لليافع:</label>
-                            <input type="text" name="الاسم" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">حالة الحضور:</label>
-                            <select name="حالة الحضور" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                                <option>حاضر(ة)</option>
-                                <option>غائب(ة) مبرر</option>
-                                <option>غائب(ة) غير مبرر</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button type="submit" class="bg-blue-900 hover:bg-blue-950 text-white font-bold px-5 py-2.5 rounded-lg text-xs transition-all">تقييد حالة الحضور</button>
-                </form>
-            </div>
-
-            <div id="section-form-budget" class="content-section hidden max-w-2xl bg-white p-6 rounded-xl border border-slate-200 shadow-md">
-                <h3 class="text-sm font-bold text-blue-950 mb-4 border-b pb-2"><i class="fa-solid fa-file-invoice-dollar text-sky-500 ml-2"></i> كشف النفقات وتدبير الميزانية</h3>
-                <form class="space-y-4" onsubmit="submitForm(event, 'Budget_Expenses')">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">التاريخ:</label>
-                            <input type="date" name="التاريخ" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">بند المصرف:</label>
-                            <select name="بند المصرف" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                                <option>بند الإطعام والتغذية</option><option>تعويضات المنشطين والمنشطات</option><option>معدات الورشات</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">المبلغ بالدرهم:</label>
-                        <input type="number" step="0.01" name="المبلغ بالدرهم" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">البيان الشامل التفصيلي:</label>
-                        <textarea rows="3" name="البيان" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none"></textarea>
-                    </div>
-                    <button type="submit" class="bg-blue-900 hover:bg-blue-950 text-white font-bold px-5 py-2.5 rounded-lg text-xs transition-all">إدراج الفاتورة</button>
-                </form>
-            </div>
-
-            <div id="section-form-evaluations" class="content-section hidden max-w-2xl bg-white p-6 rounded-xl border border-slate-200 shadow-md">
-                <h3 class="text-sm font-bold text-blue-950 mb-4 border-b pb-2"><i class="fa-solid fa-user-shield text-sky-500 ml-2"></i> رصد وتتبع التداريب وآفاق الإدماج</h3>
-                <form class="space-y-4" onsubmit="submitForm(event, 'Evaluations_Stages')">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">الاسم الكامل لليافع:</label>
-                            <input type="text" name="الاسم الكامل" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">الحرفة/التخصص المهني:</label>
-                            <input type="text" name="الحرفة/التخصص" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                        </div>
-                    </div>
-                    <button type="submit" class="bg-blue-900 hover:bg-blue-950 text-white font-bold px-5 py-2.5 rounded-lg text-xs transition-all">تثبيت بيانات التدريب</button>
-                </form>
-            </div>
-
-            <div id="section-form-centres" class="content-section hidden max-w-2xl bg-white p-6 rounded-xl border border-slate-200 shadow-md">
-                <h3 class="text-sm font-bold text-blue-950 mb-4 border-b pb-2"><i class="fa-solid fa-school text-sky-500 ml-2"></i> هيكلة وتوزيع أطر التدبير والمنشطين</h3>
-                <form class="space-y-4" onsubmit="submitForm(event, 'Centres_Staff')">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">الاسم الكامل للمنشط(ة):</label>
-                            <input type="text" name="المنشط" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">تخصص التنشيط والتدريب:</label>
-                            <input type="text" name="التخصص" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                        </div>
-                    </div>
-                    <button type="submit" class="bg-blue-900 hover:bg-blue-950 text-white font-bold px-5 py-2.5 rounded-lg text-xs transition-all">تسجيل الإطار التربوي</button>
-                </form>
-            </div>
-
+            <div class="kpi-icon" style="background:var(--green-light);color:var(--green)"><i class="fa-solid fa-users"></i></div>
+          </div>
+          <div class="kpi-sub">من أصل 120 مستهدفاً — 50%</div>
         </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div>
+              <div class="kpi-num" style="color:var(--amber)">10</div>
+              <div class="kpi-label">منشط/ة تربوي/ة</div>
+            </div>
+            <div class="kpi-icon" style="background:var(--amber-light);color:var(--amber)"><i class="fa-solid fa-chalkboard-user"></i></div>
+          </div>
+          <div class="kpi-sub">موزعون على 8 مراكز — تعويض 3000 د/شهر</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div>
+              <div class="kpi-num" style="color:var(--red)">270K</div>
+              <div class="kpi-label">درهم — الموارد البشرية</div>
+            </div>
+            <div class="kpi-icon" style="background:var(--red-light);color:var(--red)"><i class="fa-solid fa-money-bill-wave"></i></div>
+          </div>
+          <div class="kpi-sub">22.5% من الميزانية الإجمالية</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div>
+              <div class="kpi-num" style="color:var(--teal)">3</div>
+              <div class="kpi-label">مجالات تدخل</div>
+            </div>
+            <div class="kpi-icon" style="background:var(--teal-light);color:var(--teal)"><i class="fa-solid fa-layer-group"></i></div>
+          </div>
+          <div class="kpi-sub">اليقظة — التأهيل — الإدماج</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div>
+              <div class="kpi-num" style="color:var(--purple)">9</div>
+              <div class="kpi-label">أشهر إنجاز</div>
+            </div>
+            <div class="kpi-icon" style="background:var(--purple-light);color:var(--purple)"><i class="fa-solid fa-calendar-days"></i></div>
+          </div>
+          <div class="kpi-sub">أكتوبر 2025 → يونيو 2026</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-chart-bar"></i> تقدم الإنجاز حسب المجال</div>
+          <div class="prog-wrap">
+            <div class="prog-head"><span>المجال 1 — اليقظة التربوية</span><span class="topbar-badge badge-sky">65%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:65%;background:var(--sky)"></div></div>
+          </div>
+          <div class="prog-wrap">
+            <div class="prog-head"><span>المجال 2 — التأهيل بالمراكز</span><span class="topbar-badge badge-amber">48%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:48%;background:var(--amber)"></div></div>
+          </div>
+          <div class="prog-wrap">
+            <div class="prog-head"><span>المجال 3 — الإدماج والتتبع</span><span class="topbar-badge badge-teal">30%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:30%;background:var(--teal)"></div></div>
+          </div>
+          <div class="prog-wrap">
+            <div class="prog-head"><span>استهلاك الميزانية الإجمالي</span><span class="topbar-badge badge-red">41%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:41%;background:var(--red)"></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-calendar-check"></i> لوحة القيادة الزمنية</div>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>الهدف</th><th>الانطلاق</th><th>الآجال</th><th>الوضعية</th></tr></thead>
+              <tbody>
+                <tr><td>تنسيق اليقظة التربوية</td><td>أكتوبر</td><td>مستمر</td><td><span class="tag" style="background:var(--green-light);color:var(--green)">نشيط</span></td></tr>
+                <tr><td>التأهيل التربوي والكفايات</td><td>أكتوبر</td><td>يونيو</td><td><span class="tag" style="background:var(--green-light);color:var(--green)">نشيط</span></td></tr>
+                <tr><td>الأنشطة السوسيو-تربوية</td><td>نوفمبر</td><td>ماي</td><td><span class="tag" style="background:var(--green-light);color:var(--green)">نشيط</span></td></tr>
+                <tr><td>التأهيل المهني والورشات</td><td>نوفمبر</td><td>ماي</td><td><span class="tag" style="background:var(--amber-light);color:var(--amber)">قيد التنفيذ</span></td></tr>
+                <tr><td>التوجيه والمشروع الشخصي</td><td>يناير</td><td>يونيو</td><td><span class="tag" style="background:var(--amber-light);color:var(--amber)">قيد التنفيذ</span></td></tr>
+                <tr><td>التداريب الميدانية والإدماج</td><td>مارس</td><td>يونيو</td><td><span class="tag" style="background:var(--sky-light);color:var(--sky)">قريباً</span></td></tr>
+                <tr><td>تتبع الخريجين البعدي</td><td>يوليوز</td><td>مستمر</td><td><span class="tag" style="background:var(--border);color:var(--muted)">لم يبدأ</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-building"></i> حالة المراكز الأربعة — الإعداديات المرتبطة</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>#</th><th>المركز</th><th>الإعداديات المرتبطة</th><th>المستفيدون</th><th>المنشطون</th><th>الورشات</th><th>نسبة الحضور</th><th>الوضعية</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><strong>مركز ميدلت</strong></td>
+                <td style="font-size:10.5px;color:var(--muted)">مولاي يوسف | العياشي | مولاي ارشيد | الشهداء | الحسن الداخل</td>
+                <td>35</td><td>4</td><td>إعلاميات، حرف، طهي</td>
+                <td><div class="prog-bar" style="width:80px;display:inline-block"><div class="prog-fill" style="width:88%;background:var(--green)"></div></div> 88%</td>
+                <td><span class="tag" style="background:var(--green-light);color:var(--green)">نشيط</span></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><strong>مركز أيت امغار</strong></td>
+                <td style="font-size:10.5px;color:var(--muted)">إعدادية أيت امغار</td>
+                <td>10</td><td>2</td><td>حرف محلية، نسيج</td>
+                <td><div class="prog-bar" style="width:80px;display:inline-block"><div class="prog-fill" style="width:82%;background:var(--green)"></div></div> 82%</td>
+                <td><span class="tag" style="background:var(--green-light);color:var(--green)">نشيط</span></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><strong>مركز أيت ازدك</strong></td>
+                <td style="font-size:10.5px;color:var(--muted)">إعدادية القيروان</td>
+                <td>8</td><td>2</td><td>خياطة، طرز أمازيغي</td>
+                <td><div class="prog-bar" style="width:80px;display:inline-block"><div class="prog-fill" style="width:79%;background:var(--amber)"></div></div> 79%</td>
+                <td><span class="tag" style="background:var(--green-light);color:var(--green)">نشيط</span></td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td><strong>مركز امرصيد</strong></td>
+                <td style="font-size:10.5px;color:var(--muted)">إعدادية بوعياش</td>
+                <td>7</td><td>2</td><td>فلاحة، بيئة جبلية</td>
+                <td><div class="prog-bar" style="width:80px;display:inline-block"><div class="prog-fill" style="width:75%;background:var(--amber)"></div></div> 75%</td>
+                <td><span class="tag" style="background:var(--amber-light);color:var(--amber)">متابعة</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- ══ CHARTS ROW 1 ══ -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+
+        <!-- مخطط الهدر المدرسي -->
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-chart-bar" style="color:var(--red)"></i> نسب الهدر المدرسي — الإعداديات الثمانية</div>
+          <canvas id="chartHadr" height="200"></canvas>
+        </div>
+
+        <!-- مخطط دائري الميزانية -->
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-chart-pie" style="color:var(--sky)"></i> توزيع الميزانية حسب البنود الرئيسية</div>
+          <canvas id="chartBudget" height="200"></canvas>
+        </div>
+      </div>
+
+      <!-- ══ CHARTS ROW 2 ══ -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+
+        <!-- مخطط الحضور الشهري -->
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-chart-line" style="color:var(--green)"></i> تطور نسبة الحضور الشهري — 4 مراكز</div>
+          <canvas id="chartAssiduite" height="200"></canvas>
+        </div>
+
+        <!-- مخطط المستفيدين حسب المركز -->
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-chart-column" style="color:var(--purple)"></i> توزيع المستفيدين حسب المركز والجنس</div>
+          <canvas id="chartBenef" height="200"></canvas>
+        </div>
+      </div>
+
+      <!-- ══ CHARTS ROW 3 ══ -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px">
+
+        <!-- مخطط تقدم المجالات الثلاثة شهرياً -->
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-chart-area" style="color:var(--amber)"></i> تطور الإنجاز التراكمي حسب المجالات (أكتوبر — يونيو)</div>
+          <canvas id="chartProgression" height="180"></canvas>
+        </div>
+
+        <!-- مخطط دائري توزيع المستفيدين -->
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-venus-mars" style="color:var(--teal)"></i> توزيع المستفيدين — ذكور / إناث</div>
+          <canvas id="chartGender" height="180"></canvas>
+          <div style="display:flex;justify-content:center;gap:1.5rem;margin-top:.8rem;font-size:11px">
+            <span><span style="display:inline-block;width:10px;height:10px;background:#0EA5E9;border-radius:50%;margin-left:4px"></span>إناث — 38 (63%)</span>
+            <span><span style="display:inline-block;width:10px;height:10px;background:#7C3AED;border-radius:50%;margin-left:4px"></span>ذكور — 22 (37%)</span>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <script>
-        window.onload = function() {
-            const today = new Date().toISOString().split('T')[0];
-            document.querySelectorAll('input[type="date"]').forEach(input => input.value = today);
-        };
+    <!-- ══ INDICATEURS ══ -->
+<script>
+(function(){
+  // ── Chart.js CDN ──
+  if(window.Chart) initCharts(); else {
+    const s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js';
+    s.onload=initCharts; document.head.appendChild(s);
+  }
 
-        function showSection(sectionId, currentButton) {
-            document.querySelectorAll('.content-section').forEach(sec => sec.classList.add('hidden'));
-            const targetSection = document.getElementById('section-' + sectionId);
-            if(targetSection) targetSection.classList.remove('hidden');
+  function initCharts(){
+    Chart.defaults.font.family="'Tajawal',sans-serif";
+    Chart.defaults.color='#93C5FD';
+    Chart.defaults.borderColor='#2D5280';
 
-            document.querySelectorAll('#sidebar-nav button').forEach(btn => {
-                btn.classList.remove('active-menu', 'text-white');
-                btn.classList.add('text-slate-400');
-            });
-
-            if(currentButton) {
-                currentButton.classList.add('active-menu');
-                currentButton.classList.remove('text-slate-400');
-            }
+    // ── 1. مخطط الهدر المدرسي (أعمدة مزدوجة) ──
+    new Chart(document.getElementById('chartHadr'),{
+      type:'bar',
+      data:{
+        labels:['مولاي يوسف','العياشي','مولاي ارشيد','أيت امغار','القيروان','الشهداء','الحسن الداخل','بوعياش'],
+        datasets:[
+          {label:'هدر الذكور %',data:[7.5,8.4,6.8,12.6,10.8,7.0,7.8,13.5],backgroundColor:'rgba(192,57,43,0.8)',borderRadius:5},
+          {label:'هدر الإناث %',data:[5.2,5.8,4.7,10.2,8.6,5.1,5.0,10.9],backgroundColor:'rgba(217,119,6,0.75)',borderRadius:5}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:true,
+        plugins:{legend:{position:'top',labels:{boxWidth:12,font:{size:13}}}},
+        scales:{
+          y:{beginAtZero:true,max:16,ticks:{callback:v=>v+'%',font:{size:13}},grid:{color:'#2D5280'}},
+          x:{ticks:{font:{size:11}},grid:{display:false}}
         }
+      }
+    });
 
-        // دالة الحقن الفوري المحدثة والمحمية بالكامل من قيود المتصفحات وجدران الحماية
-        function submitForm(event, sheetName) {
-            event.preventDefault();
-            
-            // الرابط النهائي والجديد الذي أرسلته الآن مدمج كلياً هنا
-            const webAppUrl = "https://script.google.com/macros/s/AKfycbyTLBwAgeQnGZei7CDkQk0MRI_1UvDyO0qkyv6xGNwf9XuTvwsRBpx0EtODISoKMZnmMA/exec"; 
-            
-            const form = event.target;
-            const formData = new FormData(form);
-            
-            // بناء الكائن الأساسي متضمناً اسم الورقة المستهدفة
-            const dataObject = {};
-            dataObject["sheetName"] = sheetName;
-            
-            formData.forEach((value, key) => {
-                dataObject[key] = value.trim();
-            });
-            
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerText;
-            submitBtn.innerText = "جاري التأمين والحفظ بالسحاب...";
-            submitBtn.disabled = true;
-            
-            const encodedData = encodeURIComponent(JSON.stringify(dataObject));
-            const fullUrl = webAppUrl + "?data=" + encodedData;
+    // ── 2. مخطط دائري الميزانية ──
+    new Chart(document.getElementById('chartBudget'),{
+      type:'doughnut',
+      data:{
+        labels:['موارد بشرية','إطعام','مصاريف تشغيل','تنقل','تنسيق','قدرات','تواصل','إشراف','مساعدة اجتماعية','تكوين','محاسبة'],
+        datasets:[{
+          data:[270000,350000,195000,96000,40000,80000,40000,40000,45000,24000,20000],
+          backgroundColor:['#C0392B','#E67E22','#8E44AD','#16A085','#27AE60','#2980B9','#F39C12','#2ECC71','#E74C3C','#3498DB','#1ABC9C'],
+          borderWidth:2,borderColor:'#fff'
+        }]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:true,
+        plugins:{
+          legend:{position:'bottom',labels:{boxWidth:10,font:{size:12},padding:6}},
+          tooltip:{callbacks:{label:ctx=>{const v=ctx.parsed;const pct=((v/1200000)*100).toFixed(1);return ` ${v.toLocaleString('fr-MA')} د — ${pct}%`;}}}
+        },
+        cutout:'60%'
+      }
+    });
 
-            let iframe = document.getElementById("hidden-iframe");
-            if (!iframe) {
-                iframe = document.createElement("iframe");
-                iframe.id = "hidden-iframe";
-                iframe.style.display = "none";
-                document.body.appendChild(iframe);
-            }
-            iframe.onload = function() {
-                alert(`✅ مبروك! تم تسجيل وحفظ المعطيات بنجاح داخل الورقة: [ ${sheetName} ]`);
-                form.reset();
-                const today = new Date().toISOString().split('T')[0];
-                form.querySelectorAll('input[type="date"]').forEach(input => input.value = today);
-                submitBtn.innerText = originalBtnText;
-                submitBtn.disabled = false;
-            };
-            iframe.src = fullUrl;
+    // ── 3. مخطط الحضور الشهري (خطي) ──
+    new Chart(document.getElementById('chartAssiduite'),{
+      type:'line',
+      data:{
+        labels:['أكتوبر','نوفمبر','دجنبر','يناير','فبراير','مارس','أبريل','ماي'],
+        datasets:[
+          {label:'مركز ميدلت',data:[92,90,88,85,88,91,89,87],borderColor:'#0EA5E9',backgroundColor:'rgba(14,165,233,.1)',fill:true,tension:.4,pointRadius:4},
+          {label:'مركز أيت امغار',data:[85,83,80,82,84,85,83,82],borderColor:'#059669',backgroundColor:'rgba(5,150,105,.08)',fill:true,tension:.4,pointRadius:4},
+          {label:'مركز أيت ازدك',data:[80,78,75,79,81,80,79,78],borderColor:'#D97706',backgroundColor:'rgba(217,119,6,.08)',fill:true,tension:.4,pointRadius:4},
+          {label:'مركز امرصيد',data:[78,76,72,75,77,76,75,74],borderColor:'#7C3AED',backgroundColor:'rgba(124,58,237,.07)',fill:true,tension:.4,pointRadius:4}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:true,
+        plugins:{legend:{position:'top',labels:{boxWidth:12,font:{size:13}}}},
+        scales:{
+          y:{min:65,max:100,ticks:{callback:v=>v+'%',font:{size:13}},grid:{color:'#2D5280'}},
+          x:{ticks:{font:{size:13}},grid:{display:false}}
         }
-    </script>
+      }
+    });
+
+    // ── 4. مخطط المستفيدين حسب المركز والجنس ──
+    new Chart(document.getElementById('chartBenef'),{
+      type:'bar',
+      data:{
+        labels:['مركز ميدلت','مركز أيت امغار','مركز أيت ازدك','مركز امرصيد'],
+        datasets:[
+          {label:'إناث',data:[22,6,5,5],backgroundColor:'rgba(14,165,233,0.8)',borderRadius:6},
+          {label:'ذكور',data:[13,4,3,2],backgroundColor:'rgba(124,58,237,0.75)',borderRadius:6}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:true,
+        plugins:{legend:{position:'top',labels:{boxWidth:12,font:{size:13}}}},
+        scales:{
+          y:{beginAtZero:true,ticks:{stepSize:5,font:{size:13}},grid:{color:'#2D5280'}},
+          x:{ticks:{font:{size:13}},grid:{display:false}}
+        }
+      }
+    });
+
+    // ── 5. مخطط تقدم المجالات (منطقة) ──
+    new Chart(document.getElementById('chartProgression'),{
+      type:'line',
+      data:{
+        labels:['أكتوبر','نوفمبر','دجنبر','يناير','فبراير','مارس','أبريل','ماي','يونيو'],
+        datasets:[
+          {label:'المجال 1 — اليقظة',data:[10,22,35,45,52,58,63,68,75],borderColor:'#0EA5E9',backgroundColor:'rgba(14,165,233,.12)',fill:true,tension:.4,pointRadius:3},
+          {label:'المجال 2 — التأهيل',data:[5,15,25,35,42,50,56,62,70],borderColor:'#D97706',backgroundColor:'rgba(217,119,6,.1)',fill:true,tension:.4,pointRadius:3},
+          {label:'المجال 3 — الإدماج',data:[0,0,5,10,18,25,32,42,55],borderColor:'#0D9488',backgroundColor:'rgba(13,148,136,.09)',fill:true,tension:.4,pointRadius:3}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:true,
+        plugins:{legend:{position:'top',labels:{boxWidth:12,font:{size:13}}}},
+        scales:{
+          y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:13}},grid:{color:'#2D5280'}},
+          x:{ticks:{font:{size:13}},grid:{display:false}}
+        }
+      }
+    });
+
+    // ── 6. مخطط الجنس (دائري صغير) ──
+    new Chart(document.getElementById('chartGender'),{
+      type:'pie',
+      data:{
+        labels:['إناث','ذكور'],
+        datasets:[{data:[38,22],backgroundColor:['#0EA5E9','#7C3AED'],borderWidth:3,borderColor:'#fff'}]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:true,
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.parsed} مستفيد(ة) — ${((ctx.parsed/60)*100).toFixed(0)}%`}}}
+      }
+    });
+  }
+})();
+</script>
+    <div id="sec-indicateurs" class="section">
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-gauge-high"></i> إطار تتبع مؤشرات المشروع — Cadre de Suivi des Indicateurs</div>
+        <div class="alert alert-info" style="margin-bottom:1rem"><i class="fa-solid fa-circle-info"></i> القيمة المرجعية (Baseline) = 0 | السنة المرجعية: الموسم الدراسي 2024-2025</div>
+        <div class="ind-grid">
+          <div class="ind-card">
+            <div class="ind-header">
+              <div class="ind-title">التلاميذ المرصودون المهددون بالانقطاع</div>
+              <span class="topbar-badge badge-sky">مجال 1</span>
+            </div>
+            <div class="ind-body"><span class="ind-val" style="color:var(--sky)">74</span><span class="ind-target">/ 120 مستهدفاً</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:62%;background:var(--sky)"></div></div>
+            <div style="font-size:10.5px;color:var(--muted);margin-top:.5rem">المصدر: تقارير خلايا اليقظة | لوائح نظام مسار</div>
+          </div>
+          <div class="ind-card">
+            <div class="ind-header">
+              <div class="ind-title">نسبة انخفاض الهدر المدرسي بالإعداديات الشريكة</div>
+              <span class="topbar-badge badge-sky">مجال 1</span>
+            </div>
+            <div class="ind-body"><span class="ind-val" style="color:var(--sky)">12%</span><span class="ind-target">/ 85% مستهدفة</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:14%;background:var(--sky)"></div></div>
+            <div style="font-size:10.5px;color:var(--muted);margin-top:.5rem">تحسن نسبي — المتابعة مستمرة</div>
+          </div>
+          <div class="ind-card">
+            <div class="ind-header">
+              <div class="ind-title">المستفيدون النشيطون في الورشات الرقمية والمهنية</div>
+              <span class="topbar-badge badge-amber">مجال 2</span>
+            </div>
+            <div class="ind-body"><span class="ind-val" style="color:var(--amber)">60</span><span class="ind-target">/ 60 مستهدفاً</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--amber)"></div></div>
+            <div style="font-size:10.5px;color:var(--muted);margin-top:.5rem">سجلات الحضور اليومية | بطاقات التقييم</div>
+          </div>
+          <div class="ind-card">
+            <div class="ind-header">
+              <div class="ind-title">نسبة النجاح في اختبارات التصديق المهني</div>
+              <span class="topbar-badge badge-amber">مجال 2</span>
+            </div>
+            <div class="ind-body"><span class="ind-val" style="color:var(--amber)">72%</span><span class="ind-target">/ 90% مستهدفة</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:80%;background:var(--amber)"></div></div>
+            <div style="font-size:10.5px;color:var(--muted);margin-top:.5rem">تقارير اختبارات نهاية المجزوءات</div>
+          </div>
+          <div class="ind-card">
+            <div class="ind-header">
+              <div class="ind-title">الخريجون المدمجون (تعليم، تكوين، شغل)</div>
+              <span class="topbar-badge badge-teal">مجال 3</span>
+            </div>
+            <div class="ind-body"><span class="ind-val" style="color:var(--teal)">18%</span><span class="ind-target">/ 80% مستهدفة</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:22%;background:var(--teal)"></div></div>
+            <div style="font-size:10.5px;color:var(--muted);margin-top:.5rem">قاعدة البيانات الرقمية — ملفات المشاريع الشخصية</div>
+          </div>
+          <div class="ind-card">
+            <div class="ind-header">
+              <div class="ind-title">عقود التداريب المبرمة مع المقاولات</div>
+              <span class="topbar-badge badge-teal">مجال 3</span>
+            </div>
+            <div class="ind-body"><span class="ind-val" style="color:var(--teal)">4</span><span class="ind-target">/ 15 عقداً مستهدفاً</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:27%;background:var(--teal)"></div></div>
+            <div style="font-size:10.5px;color:var(--muted);margin-top:.5rem">عقود الشراكة مع الفاعلين الاقتصاديين</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-table"></i> الجدول التفصيلي لمؤشرات الأداء</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>النشاط</th><th>النتيجة المنتظرة</th><th>المؤشر</th><th>القيمة المرجعية</th><th>القيمة المنتظرة</th><th>المحقق حالياً</th><th>مصدر التحقق</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>التنسيق مع خلايا اليقظة</strong></td>
+                <td>رصد استباقي للمهددين بالانقطاع</td>
+                <td>عدد التلاميذ المرصودين</td>
+                <td>0</td>
+                <td>120</td>
+                <td><span class="tag" style="background:var(--sky-light);color:var(--sky)">74</span></td>
+                <td>تقارير اليقظة / مسار</td>
+              </tr>
+              <tr>
+                <td><strong>التأهيل التربوي بالمركز</strong></td>
+                <td>تمكين من الكفايات الأساسية</td>
+                <td>عدد المستفيدين النشيطين</td>
+                <td>0</td>
+                <td>60</td>
+                <td><span class="tag" style="background:var(--green-light);color:var(--green)">60 ✓</span></td>
+                <td>سجلات الحضور</td>
+              </tr>
+              <tr>
+                <td><strong>التوجيه والمشروع الشخصي</strong></td>
+                <td>تيسير الإدماج الفعلي</td>
+                <td>نسبة الخريجين المدمجين</td>
+                <td>0%</td>
+                <td>80%</td>
+                <td><span class="tag" style="background:var(--amber-light);color:var(--amber)">18%</span></td>
+                <td>قاعدة البيانات الرقمية</td>
+              </tr>
+              <tr>
+                <td><strong>عقود التداريب</strong></td>
+                <td>ربط مع النسيج الاقتصادي</td>
+                <td>عدد عقود التداريب</td>
+                <td>0</td>
+                <td>15 عقداً</td>
+                <td><span class="tag" style="background:var(--amber-light);color:var(--amber)">4</span></td>
+                <td>عقود الشراكة</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ BUDGET ══ -->
+    <div id="sec-budget" class="section">
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-coins"></i> هيكل الميزانية الإجمالية — 1.200.000 درهم / 8 مراكز</div>
+        <div class="alert alert-info"><i class="fa-solid fa-circle-info"></i> تم توزيع الميزانية عبر 11 بنداً رئيسياً لضمان تغطية التسيير والدعم الاجتماعي للمراكز الثمانية بشكل متوازن</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1rem">
+          <div>
+            <div id="budget-visual" style="display:flex;flex-direction:column;gap:4px"></div>
+          </div>
+          <div class="tbl-wrap" style="height:fit-content">
+            <table>
+              <thead><tr><th>البند</th><th>المبلغ (درهم)</th><th>%</th></tr></thead>
+              <tbody id="budget-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ DOMAINE 1 ══ -->
+    <div id="sec-domaine1" class="section">
+      <div class="hero-banner" style="background:linear-gradient(135deg,#0c4a6e,#0369a1)">
+        <div class="hero-text">
+          <h2>المجال الأول — مواكبة شبكة من الثانويات الإعدادية</h2>
+          <p>اليقظة التربوية والتدخل الاستباقي للحد من الهدر المدرسي بالإعداديات الشريكة</p>
+        </div>
+        <div class="hero-stats">
+          <div class="hs"><div class="hs-num">8</div><div class="hs-label">ثانويات إعدادية</div></div>
+          <div class="hs"><div class="hs-num">4510</div><div class="hs-label">إجمالي التلاميذ</div></div>
+          <div class="hs"><div class="hs-num">9.7%</div><div class="hs-label">متوسط نسبة الهدر</div></div>
+        </div>
+      </div>
+
+      <!-- جدول وضعية الهدر المدرسي -->
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-triangle-exclamation" style="color:var(--red)"></i> وضعية الهدر المدرسي والانقطاع بشبكة الإعداديات المستهدفة</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.2rem">
+          <div style="background:var(--sky-light);border-radius:10px;padding:.8rem 1rem;text-align:center">
+            <div style="font-size:22px;font-weight:900;color:var(--sky)">2590</div>
+            <div style="font-size:10px;color:#0369a1;font-weight:600">إجمالي الذكور</div>
+          </div>
+          <div style="background:#fce7f3;border-radius:10px;padding:.8rem 1rem;text-align:center">
+            <div style="font-size:22px;font-weight:900;color:#be185d">1960</div>
+            <div style="font-size:10px;color:#be185d;font-weight:600">إجمالي الإناث</div>
+          </div>
+          <div style="background:var(--red-light);border-radius:10px;padding:.8rem 1rem;text-align:center">
+            <div style="font-size:22px;font-weight:900;color:var(--red)">9.8%</div>
+            <div style="font-size:10px;color:var(--red);font-weight:600">متوسط هدر الذكور</div>
+          </div>
+          <div style="background:var(--amber-light);border-radius:10px;padding:.8rem 1rem;text-align:center">
+            <div style="font-size:22px;font-weight:900;color:var(--amber)">7.2%</div>
+            <div style="font-size:10px;color:var(--amber);font-weight:600">متوسط هدر الإناث</div>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>الإقليم/الجماعة</th>
+                <th>الثانوية الإعدادية</th>
+                <th>الذكور</th>
+                <th>الإناث</th>
+                <th>المجموع</th>
+                <th>نسبة هدر الذكور</th>
+                <th>نسبة هدر الإناث</th>
+                <th>مستوى المخاطرة</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ميدلت</td>
+                <td><strong>مولاي يوسف</strong></td>
+                <td>420</td><td>380</td><td>800</td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:47%;background:var(--amber)"></div></div>7.5%</div></td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:32%;background:var(--green)"></div></div>5.2%</div></td>
+                <td><span class="tag" style="background:var(--amber-light);color:var(--amber)">متوسط</span></td>
+              </tr>
+              <tr>
+                <td>ميدلت</td>
+                <td><strong>العياشي</strong></td>
+                <td>480</td><td>410</td><td>890</td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:53%;background:var(--amber)"></div></div>8.4%</div></td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:36%;background:var(--green)"></div></div>5.8%</div></td>
+                <td><span class="tag" style="background:var(--amber-light);color:var(--amber)">متوسط</span></td>
+              </tr>
+              <tr>
+                <td>ميدلت</td>
+                <td><strong>مولاي ارشيد</strong></td>
+                <td>390</td><td>350</td><td>740</td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:43%;background:var(--green)"></div></div>6.8%</div></td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:29%;background:var(--green)"></div></div>4.7%</div></td>
+                <td><span class="tag" style="background:var(--green-light);color:var(--green)">منخفض</span></td>
+              </tr>
+              <tr style="background:#fff7ed">
+                <td>أيت امغار</td>
+                <td><strong>أيت امغار</strong></td>
+                <td>210</td><td>180</td><td>390</td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:79%;background:var(--red)"></div></div>12.6%</div></td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:64%;background:var(--amber)"></div></div>10.2%</div></td>
+                <td><span class="tag" style="background:var(--red-light);color:var(--red)">مرتفع ⚠</span></td>
+              </tr>
+              <tr style="background:#fff7ed">
+                <td>أيت ازدك</td>
+                <td><strong>القيروان</strong></td>
+                <td>290</td><td>240</td><td>530</td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:68%;background:var(--amber)"></div></div>10.8%</div></td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:54%;background:var(--amber)"></div></div>8.6%</div></td>
+                <td><span class="tag" style="background:var(--amber-light);color:var(--amber)">مرتفع</span></td>
+              </tr>
+              <tr>
+                <td>ميدلت</td>
+                <td><strong>الشهداء</strong></td>
+                <td>440</td><td>390</td><td>830</td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:44%;background:var(--green)"></div></div>7.0%</div></td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:32%;background:var(--green)"></div></div>5.1%</div></td>
+                <td><span class="tag" style="background:var(--green-light);color:var(--green)">منخفض</span></td>
+              </tr>
+              <tr>
+                <td>ميدلت</td>
+                <td><strong>الحسن الداخل</strong></td>
+                <td>510</td><td>460</td><td>970</td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:49%;background:var(--amber)"></div></div>7.8%</div></td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:31%;background:var(--green)"></div></div>5.0%</div></td>
+                <td><span class="tag" style="background:var(--amber-light);color:var(--amber)">متوسط</span></td>
+              </tr>
+              <tr style="background:#fff1f2">
+                <td>امرصيد</td>
+                <td><strong>بوعياش</strong></td>
+                <td>180</td><td>150</td><td>330</td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:85%;background:var(--red)"></div></div>13.5%</div></td>
+                <td><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="width:60px;display:inline-block"><div class="prog-fill" style="width:68%;background:var(--red)"></div></div>10.9%</div></td>
+                <td><span class="tag" style="background:var(--red-light);color:var(--red)">مرتفع جداً ⚠⚠</span></td>
+              </tr>
+              <tr style="background:var(--bg);font-weight:900">
+                <td colspan="2"><strong>المجموع الإجمالي</strong></td>
+                <td><strong>2590</strong></td><td><strong>1960</strong></td><td><strong>4550</strong></td>
+                <td><strong style="color:var(--red)">9.8%</strong></td>
+                <td><strong style="color:var(--amber)">7.2%</strong></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="font-size:10.5px;color:var(--muted);margin-top:.7rem;padding:.5rem .8rem;background:var(--bg);border-radius:7px">
+          <i class="fa-solid fa-circle-info" style="color:var(--sky);margin-left:.3rem"></i>
+          الصفوف المظللة بالبرتقالي/الأحمر تمثل الإعداديات ذات الأولوية القصوى للتدخل (نسبة هدر ≥ 10%) — مصدر البيانات: نظام مسار / السنة الدراسية السابقة
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-table"></i> برنامج العمل — التدابير والأنشطة والمؤشرات</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>التدابير</th><th>الأنشطة الرئيسية</th><th>العمليات الميدانية</th><th>المؤشرات</th><th>التقدم</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>التنسيق مع خلايا اليقظة</strong></td>
+                <td>اجتماعات دورية مع خلايا اليقظة | بروتوكول تبادل البيانات</td>
+                <td>حصر التلاميذ المتغيبين شهرياً | ورشات تشخيص الحالات</td>
+                <td>عدد الاجتماعات | نسبة التلاميذ المرصودين</td>
+                <td><span class="tag" style="background:var(--green-light);color:var(--green)">65%</span></td>
+              </tr>
+              <tr>
+                <td><strong>التحسيس والتواصل</strong></td>
+                <td>حملات توعوية ميدانية | إنتاج دعائم تواصلية</td>
+                <td>أيام الأبواب المفتوحة | زيارات أسرية بالمناطق المستهدفة</td>
+                <td>عدد اللقاءات التحسيسية | عدد الأسر المستفيدة</td>
+                <td><span class="tag" style="background:var(--green-light);color:var(--green)">70%</span></td>
+              </tr>
+              <tr>
+                <td><strong>الأنشطة السوسيو-تربوية</strong></td>
+                <td>تفعيل أندية تربوية وثقافية | ورشات المهارات الرقمية</td>
+                <td>تجهيز فضاءات الأندية | مسابقات بين الإعداديات</td>
+                <td>عدد الأندية المفعلة | نسبة مشاركة المهددين بالانقطاع</td>
+                <td><span class="tag" style="background:var(--amber-light);color:var(--amber)">55%</span></td>
+              </tr>
+              <tr>
+                <td><strong>المواكبة الفردية</strong></td>
+                <td>الدعم النفسي للحالات المعقدة | خطط مواكبة مخصصة</td>
+                <td>جلسات إنصات فردية مع مستشاري التوجيه | تتبع الغياب والنقاط</td>
+                <td>عدد جلسات المواكبة الفردية | نسبة استعادة الاستقرار الدراسي</td>
+                <td><span class="tag" style="background:var(--amber-light);color:var(--amber)">60%</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-handshake"></i> الاتفاقيات والشراكات المبرمة</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="ind-card">
+            <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:.4rem"><i class="fa-solid fa-landmark" style="color:var(--sky);margin-left:.4rem"></i> المديرية الإقليمية لوزارة التربية الوطنية</div>
+            <div style="font-size:11px;color:var(--muted)">تفعيل اليقظة التربوية | تبادل لوائح التلاميذ المهددين | التدخل الاستباقي</div>
+            <span class="topbar-badge badge-green" style="margin-top:.5rem;display:inline-block">اتفاقية مبرمة</span>
+          </div>
+          <div class="ind-card">
+            <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:.4rem"><i class="fa-solid fa-building-columns" style="color:var(--purple);margin-left:.4rem"></i> معهد ICECD — تنمية القدرات والمواطنة</div>
+            <div style="font-size:11px;color:var(--muted)">تأطير الأندية السوسيو-تربوية | الدعم النفسي | كفايات الاستماع والمواكبة</div>
+            <span class="topbar-badge badge-purple" style="margin-top:.5rem;display:inline-block">شراكة نشيطة</span>
+          </div>
+          <div class="ind-card">
+            <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:.4rem"><i class="fa-solid fa-users" style="color:var(--teal);margin-left:.4rem"></i> جمعيات أمهات وآباء التلاميذ</div>
+            <div style="font-size:11px;color:var(--muted)">تعزيز التواصل مع الأسر | الوساطة الأسرية | حملات التوعية الميدانية</div>
+            <span class="topbar-badge badge-teal" style="margin-top:.5rem;display:inline-block">اتفاقية إطار</span>
+          </div>
+          <div class="ind-card">
+            <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:.4rem"><i class="fa-solid fa-school" style="color:var(--amber);margin-left:.4rem"></i> شبكة الإعداديات الشريكة — 8 مؤسسات</div>
+            <div style="font-size:11px;color:var(--muted);line-height:1.8">
+              مولاي يوسف (ميدلت) | العياشي (ميدلت) | مولاي ارشيد (ميدلت)<br>
+              الشهداء (ميدلت) | الحسن الداخل (ميدلت) | أيت امغار (أيت امغار)<br>
+              القيروان (أيت ازدك) | بوعياش (امرصيد)
+            </div>
+            <span class="topbar-badge badge-amber" style="margin-top:.5rem;display:inline-block">8 إعداديات</span>
+            <span class="topbar-badge badge-red" style="margin-top:.5rem;display:inline-block">4550 تلميذ/ة</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ DOMAINE 2 ══ -->
+    <div id="sec-domaine2" class="section">
+      <div class="hero-banner" style="background:linear-gradient(135deg,#064e3b,#0f766e)">
+        <div class="hero-text">
+          <h2>المجال الثاني — التأهيل التربوي والمهني بمراكز الفرصة الثانية</h2>
+          <p>تمكين اليافعين من الكفايات الأساسية، المهارات الحياتية، والتأهيل المهني التطبيقي</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-table"></i> برنامج عمل مراكز الفرصة الثانية — موجز برنامج العمل</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>التدابير</th><th>الأنشطة</th><th>العمليات</th><th>المؤشرات</th><th>المدة</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>التأهيل التربوي وأنشطة التفتح</strong></td>
+                <td>دروس الدعم في المواد الأساسية | أنشطة ثقافية وفنية ورياضية</td>
+                <td>حصص مرنة ملائمة للمستويات | محترفات المسرح والموسيقى</td>
+                <td>عدد الساعات التعليمية | نسبة استعادة الكفايات الأساسية</td>
+                <td><span class="tag" style="background:var(--sky-light);color:var(--sky)">9 أشهر</span></td>
+              </tr>
+              <tr>
+                <td><strong>التأهيل الشخصي — المهارات الحياتية</strong></td>
+                <td>ورشات بناء الثقة بالنفس والتواصل | جلسات الدعم النفسي والاجتماعي</td>
+                <td>دورات تفاعلية حول Life Skills | جلسات إنصات وتوجيه فردية وجماعية</td>
+                <td>عدد ورشات المهارات الحياتية | نسبة التغير الإيجابي في السلوك</td>
+                <td><span class="tag" style="background:var(--sky-light);color:var(--sky)">9 أشهر</span></td>
+              </tr>
+              <tr>
+                <td><strong>التأهيل المهني النظري</strong></td>
+                <td>التكوين النظري حول المفاهيم المهنية | قواعد السلامة في العمل</td>
+                <td>مجزوءات التكوين المهني المعتمدة | زيارات استكشافية للمؤسسات المهنية</td>
+                <td>عدد المجزوءات الملقنة | نسبة النجاح في التقييمات</td>
+                <td><span class="tag" style="background:var(--amber-light);color:var(--amber)">7 أشهر</span></td>
+              </tr>
+              <tr>
+                <td><strong>الورشات المهنية بالمركز</strong></td>
+                <td>التدريب العملي داخل الورشات | مشاريع تطبيقية مصغرة</td>
+                <td>تهيئة وتجهيز الورشات | تنفيذ مشاريع تطبيقية لترسيخ الكفايات</td>
+                <td>عدد المستفيدين في كل ورشة | عدد المشاريع التطبيقية المنجزة</td>
+                <td><span class="tag" style="background:var(--amber-light);color:var(--amber)">7 أشهر</span></td>
+              </tr>
+              <tr>
+                <td><strong>التوجيه والمشروع الشخصي</strong></td>
+                <td>مرافقة المستفيد في صياغة مشروعه | لقاءات مع مهنيين ومستشاري التوجيه</td>
+                <td>مقابلات فردية دورية | بطاقة تقنية وخطة عمل لكل مشروع</td>
+                <td>نسبة المستفيدين بملف مشروع شخصي | عدد جلسات التوجيه</td>
+                <td><span class="tag" style="background:var(--purple-light);color:var(--purple)">6 أشهر</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-tools"></i> الورشات المهنية المقترحة بالمركز المرجعي — مركز الجيل الجديد / تكوين وتأهيل المرأة</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+          <div class="ind-card"><div style="font-size:20px;margin-bottom:.5rem">💻</div><div style="font-size:12px;font-weight:700;color:var(--navy)">الإعلاميات والمهارات الرقمية</div><div style="font-size:11px;color:var(--muted);margin-top:.3rem">أتمتة ذكية | مهارات رقمية أساسية | ريادة رقمية</div></div>
+          <div class="ind-card"><div style="font-size:20px;margin-bottom:.5rem">🧵</div><div style="font-size:12px;font-weight:700;color:var(--navy)">التدرج المهني والحرف المحلية</div><div style="font-size:11px;color:var(--muted);margin-top:.3rem">خياطة | طرز أمازيغي | نسيج | فخار | جلود</div></div>
+          <div class="ind-card"><div style="font-size:20px;margin-bottom:.5rem">🌱</div><div style="font-size:12px;font-weight:700;color:var(--navy)">المهارات الحياتية والريادة</div><div style="font-size:11px;color:var(--muted);margin-top:.3rem">ريادة الأعمال | مشاريع التشغيل الذاتي | التعاونيات</div></div>
+          <div class="ind-card"><div style="font-size:20px;margin-bottom:.5rem">🍳</div><div style="font-size:12px;font-weight:700;color:var(--navy)">الطهي والحلويات والضيافة</div><div style="font-size:11px;color:var(--muted);margin-top:.3rem">طبخ تقليدي | حلويات | خدمات الضيافة والسياحة</div></div>
+          <div class="ind-card"><div style="font-size:20px;margin-bottom:.5rem">🔨</div><div style="font-size:12px;font-weight:700;color:var(--navy)">البناء والنجارة والحدادة</div><div style="font-size:11px;color:var(--muted);margin-top:.3rem">بناء | ترميم | نجارة تقليدية وعصرية</div></div>
+          <div class="ind-card"><div style="font-size:20px;margin-bottom:.5rem">🌾</div><div style="font-size:12px;font-weight:700;color:var(--navy)">الفلاحة والبيئة الجبلية</div><div style="font-size:11px;color:var(--muted);margin-top:.3rem">زراعة جبلية | تربية النحل | الأعشاب الطبية</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ DOMAINE 3 ══ -->
+    <div id="sec-domaine3" class="section">
+      <div class="hero-banner" style="background:linear-gradient(135deg,#3b0764,#6d28d9)">
+        <div class="hero-text">
+          <h2>المجال الثالث — الإدماج وتتبع مآل المتعلمين بعد التكوين</h2>
+          <p>تيسير إدماج الخريجين في التعليم النظامي أو التكوين المهني أو سوق الشغل وتتبعهم بعدياً</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-table"></i> تدابير الإدماج والمتابعة البعدية</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>التدابير</th><th>الأنشطة</th><th>العمليات</th><th>المؤشرات</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>التنسيق مع الجهات المستقبلة</strong></td>
+                <td>لقاءات تشاورية مع المشغلين والمعاهد | دليل الشركاء الاقتصاديين</td>
+                <td>عقد شراكات جديدة | يوم التوجيه والإدماج</td>
+                <td>عدد الاتفاقيات مع جهات الاستقبال | عدد الشركاء الاقتصاديين</td>
+              </tr>
+              <tr>
+                <td><strong>إرساء آلية رقمية للتتبع</strong></td>
+                <td>قاعدة بيانات رقمية للخريجين | خلية تتبع ومواكبة داخل المركز</td>
+                <td>رقمنة استمارات التتبع | اتصالات دورية كل 3-6 أشهر</td>
+                <td>منصة رقمية مفعلة | نسبة الخريجين في آلية التتبع</td>
+              </tr>
+              <tr>
+                <td><strong>استدامة الإدماج الفعلي</strong></td>
+                <td>دعم الخريجين لحل المشكلات المهنية | مواكبة مشاريع التشغيل الذاتي</td>
+                <td>زيارات ميدانية لمقرات عمل الخريجين | استشارات ورشات تنشيطية بعد التخرج</td>
+                <td>نسبة المستقرين بعد سنة | عدد المستفيدين من المواكبة البعدية</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-handshake-angle"></i> شبكة الشركاء للإدماج</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">
+          <div class="ind-card">
+            <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:.4rem">OFPPT — معاهد التكوين المهني</div>
+            <div style="font-size:11px;color:var(--muted)">مقاعد بيداغوجية | شهادات التأهيل | التدرج المهني</div>
+            <div style="display:flex;gap:6px;margin-top:.5rem"><span class="topbar-badge badge-sky">شراكة مادية</span><span class="topbar-badge badge-teal">تكوينية</span></div>
+          </div>
+          <div class="ind-card">
+            <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:.4rem">ANAPEC — التشغيل والكفاءات</div>
+            <div style="font-size:11px;color:var(--muted)">ورشات التوجيه المهني | دعم التشغيل الذاتي | مواكبة البحث عن عمل</div>
+            <div style="display:flex;gap:6px;margin-top:.5rem"><span class="topbar-badge badge-green">مالية وتقنية</span></div>
+          </div>
+          <div class="ind-card">
+            <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:.4rem">غرف التجارة والصناعة التقليدية</div>
+            <div style="font-size:11px;color:var(--muted)">فضاءات التدريب الميداني | إدماج الخريجين | النسيج الاقتصادي المحلي</div>
+            <div style="display:flex;gap:6px;margin-top:.5rem"><span class="topbar-badge badge-amber">تداريب ميدانية</span></div>
+          </div>
+          <div class="ind-card">
+            <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:.4rem">ICECD والجمعيات الشريكة</div>
+            <div style="font-size:11px;color:var(--muted)">تمويلات دولية | أطر التنشيط | معدات الورشات الرقمية</div>
+            <div style="display:flex;gap:6px;margin-top:.5rem"><span class="topbar-badge badge-purple">دعم مالي وبشري</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ FORM APPRENTIS ══ -->
+    <div id="sec-form-apprentis" class="section">
+      <div class="form-card">
+        <div class="form-title"><i class="fa-solid fa-user-plus" style="color:var(--sky)"></i> تقييد بيانات يافع(ة) جديد(ة) — Apprentis_Suivi</div>
+        <form onsubmit="submitForm(event,'Apprentis_Suivi')">
+          <div class="form-grid">
+            <div class="field"><label>الاسم الكامل</label><input type="text" name="الاسم الكامل" required placeholder="اسم العائلة والنسب"></div>
+            <div class="field"><label>رقم الهاتف</label><input type="tel" name="الهاتف" placeholder="06XXXXXXXX"></div>
+            <div class="field"><label>المركز المحلي</label>
+              <select name="المركز المحلي"><option>مركز ميدلت</option><option>مركز أيت امغار</option><option>مركز أيت ازدك</option><option>مركز امرصيد</option></select>
+            </div>
+            <div class="field"><label>الجنس</label><select name="الجنس"><option>أنثى</option><option>ذكر</option></select></div>
+            <div class="field"><label>السن</label><input type="number" name="السن" min="12" max="25" placeholder="العمر بالسنوات"></div>
+            <div class="field"><label>المؤسسة الأصلية</label>
+              <select name="المؤسسة الأصلية">
+              <option>إعدادية مولاي يوسف</option>
+              <option>إعدادية العياشي</option>
+              <option>إعدادية مولاي ارشيد</option>
+              <option>إعدادية أيت امغار</option>
+              <option>إعدادية القيروان</option>
+              <option>إعدادية الشهداء</option>
+              <option>إعدادية الحسن الداخل</option>
+              <option>إعدادية بوعياش</option>
+              <option>خارج المنظومة المدرسية</option>
+              <option>أخرى</option>
+            </select>
+            </div>
+            <div class="field"><label>تاريخ الانضمام</label><input type="date" name="تاريخ الانضمام"></div>
+            <div class="field"><label>التخصص المهني المستهدف</label><input type="text" name="التخصص" placeholder="مثال: خياطة، إعلاميات..."></div>
+            <div class="field"><label>وضعية المواظبة</label><select name="وضعية المواظبة"><option>منتظم</option><option>متابعة مستمرة</option><option>غياب مرتفع</option></select></div>
+            <div class="field"><label>ملاحظات</label><input type="text" name="ملاحظات" placeholder="ملاحظات اختيارية"></div>
+          </div>
+          <button type="submit" class="btn-submit"><i class="fa-solid fa-cloud-arrow-up"></i> إرسال وحفظ فوري</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ══ FORM ASSIDUITE ══ -->
+    <div id="sec-form-assiduite" class="section">
+      <div class="form-card">
+        <div class="form-title"><i class="fa-solid fa-calendar-check" style="color:var(--teal)"></i> سجل المراقبة اليومية والمواظبة — Assiduite_Cours</div>
+        <form onsubmit="submitForm(event,'Assiduite_Cours')">
+          <div class="form-grid">
+            <div class="field"><label>تاريخ اليوم</label><input type="date" name="تاريخ اليوم" required></div>
+            <div class="field"><label>الاسم الكامل لليافع(ة)</label><input type="text" name="الاسم" required placeholder="الاسم الكامل"></div>
+            <div class="field"><label>المركز</label>
+              <select name="المركز"><option>مركز ميدلت</option><option>مركز أيت امغار</option><option>مركز أيت ازدك</option><option>مركز امرصيد</option></select>
+            </div>
+            <div class="field"><label>حالة الحضور</label>
+              <select name="حالة الحضور"><option>حاضر(ة)</option><option>غياب بعذر</option><option>غياب بدون عذر</option><option>تأخر</option></select>
+            </div>
+            <div class="field"><label>المؤسسة الأصلية</label>
+              <select name="المؤسسة الأصلية">
+                <option>إعدادية مولاي يوسف</option><option>إعدادية العياشي</option>
+                <option>إعدادية مولاي ارشيد</option><option>إعدادية أيت امغار</option>
+                <option>إعدادية القيروان</option><option>إعدادية الشهداء</option>
+                <option>إعدادية الحسن الداخل</option><option>إعدادية بوعياش</option>
+                <option>خارج المنظومة المدرسية</option><option>أخرى</option>
+              </select>
+            </div>
+            <div class="field"><label>الورشة أو الحصة</label><input type="text" name="الورشة" placeholder="نوع النشاط أو الحصة"></div>
+            <div class="field"><label>ملاحظات المنشط(ة)</label><input type="text" name="ملاحظات" placeholder="اختياري"></div>
+          </div>
+          <button type="submit" class="btn-submit"><i class="fa-solid fa-cloud-arrow-up"></i> تسجيل الحضور</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ══ FORM BUDGET ══ -->
+    <div id="sec-form-budget-form" class="section">
+      <div class="form-card">
+        <div class="form-title"><i class="fa-solid fa-file-invoice-dollar" style="color:var(--amber)"></i> رصد النفقات والفواتير — Budget_Expenses</div>
+        <form onsubmit="submitForm(event,'Budget_Expenses')">
+          <div class="form-grid">
+            <div class="field"><label>التاريخ</label><input type="date" name="التاريخ" required></div>
+            <div class="field"><label>المركز</label>
+              <select name="المركز"><option>مركز ميدلت</option><option>مركز أيت امغار</option><option>مركز أيت ازدك</option><option>مركز امرصيد</option><option>مشترك — كل المراكز</option></select>
+            </div>
+            <div class="field"><label>الإعدادية المستفيدة</label>
+              <select name="الإعدادية المستفيدة">
+                <option>غير محدد / مشترك</option>
+                <option>إعدادية مولاي يوسف</option><option>إعدادية العياشي</option>
+                <option>إعدادية مولاي ارشيد</option><option>إعدادية أيت امغار</option>
+                <option>إعدادية القيروان</option><option>إعدادية الشهداء</option>
+                <option>إعدادية الحسن الداخل</option><option>إعدادية بوعياش</option>
+              </select>
+            </div>
+            <div class="field"><label>بند المصرف</label>
+              <select name="بند المصرف">
+                <option>تعويضات الموارد البشرية</option>
+                <option>بند الإطعام والتغذية</option>
+                <option>تعزيز القدرات التنظيمية</option>
+                <option>الإشراف والتتبع التربوي</option>
+                <option>التكوين المستمر</option>
+                <option>التنقل والزيارات الميدانية</option>
+                <option>التواصل والتحسيس</option>
+                <option>المساعدة الاجتماعية</option>
+                <option>الخدمات الصحية</option>
+                <option>مسك المحاسبة</option>
+                <option>مصاريف أخرى</option>
+              </select>
+            </div>
+            <div class="field"><label>المبلغ بالدرهم (DH)</label><input type="number" step="0.01" name="المبلغ" required placeholder="0.00"></div>
+            <div class="field form-full"><label>البيان التفصيلي</label><textarea rows="3" name="البيان" required placeholder="وصف دقيق للنفقة أو الفاتورة"></textarea></div>
+            <div class="field"><label>رقم الوصل أو الفاتورة</label><input type="text" name="رقم الوصل" placeholder="اختياري"></div>
+          </div>
+          <button type="submit" class="btn-submit"><i class="fa-solid fa-cloud-arrow-up"></i> إدراج النفقة</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ══ FORM EVALUATIONS ══ -->
+    <div id="sec-form-evaluations" class="section">
+      <div class="form-card">
+        <div class="form-title"><i class="fa-solid fa-user-shield" style="color:var(--purple)"></i> رصد التداريب وتتبع آفاق الإدماج — Evaluations_Stages</div>
+        <form onsubmit="submitForm(event,'Evaluations_Stages')">
+          <div class="form-grid">
+            <div class="field"><label>الاسم الكامل لليافع(ة)</label><input type="text" name="الاسم الكامل" required></div>
+            <div class="field"><label>الحرفة/التخصص المهني</label><input type="text" name="التخصص" required placeholder="مثال: خياطة، إعلاميات..."></div>
+            <div class="field"><label>المركز</label>
+              <select name="المركز"><option>مركز ميدلت</option><option>مركز أيت امغار</option><option>مركز أيت ازدك</option><option>مركز امرصيد</option></select>
+            </div>
+            <div class="field"><label>المؤسسة الأصلية لليافع(ة)</label>
+              <select name="المؤسسة الأصلية">
+                <option>إعدادية مولاي يوسف</option><option>إعدادية العياشي</option>
+                <option>إعدادية مولاي ارشيد</option><option>إعدادية أيت امغار</option>
+                <option>إعدادية القيروان</option><option>إعدادية الشهداء</option>
+                <option>إعدادية الحسن الداخل</option><option>إعدادية بوعياش</option>
+                <option>خارج المنظومة المدرسية</option><option>أخرى</option>
+              </select>
+            </div>
+            <div class="field"><label>المؤسسة المضيفة للتدريب</label><input type="text" name="المؤسسة المضيفة" placeholder="اسم المقاولة أو الورشة"></div>
+            <div class="field"><label>تاريخ بداية التدريب</label><input type="date" name="تاريخ البداية"></div>
+            <div class="field"><label>تاريخ النهاية المتوقع</label><input type="date" name="تاريخ النهاية"></div>
+            <div class="field"><label>آفاق الإدماج</label>
+              <select name="آفاق الإدماج">
+                <option>تشغيل لدى الغير</option>
+                <option>تشغيل ذاتي / مقاولة صغيرة</option>
+                <option>تعاونية إنتاجية</option>
+                <option>العودة للتكوين المهني OFPPT</option>
+                <option>استمرار التعلم النظامي</option>
+                <option>لا يزال في مرحلة التقييم</option>
+              </select>
+            </div>
+            <div class="field"><label>تقييم المشغل</label>
+              <select name="تقييم المشغل"><option>ممتاز</option><option>جيد جداً</option><option>جيد</option><option>متوسط</option><option>ضعيف</option></select>
+            </div>
+            <div class="field form-full"><label>ملاحظات وتوصيات المواكب</label><textarea rows="2" name="الملاحظات" placeholder="توصيات مرحلية لتعزيز الكفايات أو تغيير المسار"></textarea></div>
+          </div>
+          <button type="submit" class="btn-submit"><i class="fa-solid fa-cloud-arrow-up"></i> تثبيت بيانات التدريب</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ══ FORM CENTRES ══ -->
+    <div id="sec-form-centres" class="section">
+      <div class="form-card">
+        <div class="form-title"><i class="fa-solid fa-people-group" style="color:var(--teal)"></i> هيكلة الأطر والمنشطين — Centres_Staff</div>
+        <form onsubmit="submitForm(event,'Centres_Staff')">
+          <div class="form-grid">
+            <div class="field"><label>الاسم الكامل للمنشط(ة)</label><input type="text" name="المنشط" required></div>
+            <div class="field"><label>تخصص التنشيط</label><input type="text" name="التخصص" required placeholder="مثال: إعلاميات، خياطة..."></div>
+            <div class="field"><label>المركز المكلف به</label>
+              <select name="المركز"><option>مركز ميدلت</option><option>مركز أيت امغار</option><option>مركز أيت ازدك</option><option>مركز امرصيد</option></select>
+            </div>
+            <div class="field"><label>الإعداديات المرتبطة بالتدخل</label>
+              <select name="الإعدادية المرتبطة">
+                <option>إعدادية مولاي يوسف</option><option>إعدادية العياشي</option>
+                <option>إعدادية مولاي ارشيد</option><option>إعدادية أيت امغار</option>
+                <option>إعدادية القيروان</option><option>إعدادية الشهداء</option>
+                <option>إعدادية الحسن الداخل</option><option>إعدادية بوعياش</option>
+                <option>جميع الإعداديات</option>
+              </select>
+            </div>
+            <div class="field"><label>نوع التعاقد</label>
+              <select name="نوع التعاقد"><option>تعاقد منشط تربوي</option><option>تعاقد منسق محلي</option><option>تفويض تأطير</option><option>متطوع/ة</option></select>
+            </div>
+            <div class="field"><label>التعويض الشهري (درهم)</label><input type="number" name="التعويض الشهري" placeholder="3000"></div>
+            <div class="field"><label>تاريخ الانطلاق</label><input type="date" name="تاريخ الانطلاق"></div>
+            <div class="field"><label>هاتف التواصل</label><input type="tel" name="الهاتف" placeholder="06XXXXXXXX"></div>
+          </div>
+          <button type="submit" class="btn-submit"><i class="fa-solid fa-cloud-arrow-up"></i> تسجيل الإطار التربوي</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ══ AI ══ -->
+    <div id="sec-ai" class="section">
+      <div class="api-notice" id="api-notice">
+        <strong>🔑 تفعيل الوكيل الذكي — Agent IA RAE2C</strong>
+        أدخل مفتاح Anthropic API لتشغيل الوكيل الذكي المخصص لمشروع RAE2C إقليم ميدلت. يُحفظ محلياً فقط.
+        <div class="api-key-row">
+          <input type="password" id="api-key-input" placeholder="sk-ant-api03-...">
+          <button onclick="saveApiKey()">تفعيل</button>
+        </div>
+      </div>
+      <div class="ai-wrap">
+        <div class="ai-head">
+          <div class="ai-dot"></div>
+          <div>
+            <div class="ai-head-text">الوكيل الذكي — مستشار RAE2C | إقليم ميدلت</div>
+          </div>
+          <span class="ai-head-sub">يعمل بنموذج Claude Sonnet</span>
+        </div>
+        <div class="ai-messages" id="ai-messages">
+          <div class="ai-bubble bot">مرحباً بكم في نظام RAE2C الذكي لإقليم ميدلت. أنا وكيلكم المتخصص في متابعة مشاريع مدارس الفرصة الثانية الجيل الجديد. يمكنني مساعدتكم في: تحليل المؤشرات، تتبع الميزانية، استشارات برامج العمل، وتوجيهات الإدماج المهني. ما الذي يمكنني مساعدتكم فيه؟</div>
+        </div>
+        <div class="ai-input-row">
+          <input class="ai-inp" id="ai-input" placeholder="اطرح سؤالك على الوكيل الذكي..." onkeydown="if(event.key==='Enter')sendAI()">
+          <button class="ai-send" onclick="sendAI()">إرسال</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end content-area -->
+</div><!-- end main-wrap -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby5BKlZlbDxUfvbnJQmIOumKzmcGkh57BN2tlHYkJVA5wcx43dbrsfS50p9gZC513OjSA/exec";
+let apiKey = '';
+let aiHistory = [];
+
+try { apiKey = localStorage.getItem('rae2c_apikey') || ''; } catch(e){}
+if(apiKey) document.getElementById('api-notice').classList.add('hidden');
+
+/* ── Clock ── */
+function updateClock(){
+  const now = new Date();
+  document.getElementById('clock-badge').textContent =
+    now.toLocaleDateString('ar-MA',{weekday:'short',day:'numeric',month:'short'});
+}
+updateClock(); setInterval(updateClock, 60000);
+
+/* ── Navigation ── */
+const SECTION_TITLES = {
+  dashboard:'لوحة القيادة الشاملة والمؤشرات الاستراتيجية',
+  indicateurs:'إطار تتبع مؤشرات المشروع',
+  budget:'هيكل الميزانية الإجمالية — 1.200.000 درهم',
+  domaine1:'المجال 1 — مواكبة شبكة الثانويات الإعدادية',
+  domaine2:'المجال 2 — التأهيل التربوي والمهني بمراكز E2C',
+  domaine3:'المجال 3 — الإدماج وتتبع المتعلمين البعدي',
+  'form-apprentis':'استمارة تسجيل يافع(ة) جديد(ة)',
+  'form-assiduite':'سجل الغياب والحضور اليومي',
+  'form-budget-form':'رصد النفقات والفواتير',
+  'form-evaluations':'التقييم والإدماج المهني',
+  'form-centres':'هيكلة الأطر والمنشطين',
+  ai:'الوكيل الذكي IA — Assistant RAE2C',
+};
+
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const sec = document.getElementById('sec-' + id);
+  if(sec) sec.classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById('page-title').textContent = SECTION_TITLES[id] || '';
+}
+
+/* ── Budget Data ── */
+const BUDGET = [
+  {label:'تعويضات الموارد البشرية',amount:270000,color:'#C0392B'},
+  {label:'بند الإطعام والتغذية',amount:350000,color:'#E67E22'},
+  {label:'مصاريف أخرى (قرب وماء وكهرباء)',amount:195000,color:'#8E44AD'},
+  {label:'تعزيز القدرات التنظيمية',amount:80000,color:'#2980B9'},
+  {label:'التنقل والزيارات الميدانية',amount:96000,color:'#16A085'},
+  {label:'التنسيق والمواكبة',amount:40000,color:'#27AE60'},
+  {label:'التواصل والتحسيس',amount:40000,color:'#F39C12'},
+  {label:'الإشراف والتتبع التربوي',amount:40000,color:'#2ECC71'},
+  {label:'المساعدة الاجتماعية',amount:45000,color:'#E74C3C'},
+  {label:'التكوين المستمر',amount:24000,color:'#3498DB'},
+  {label:'مسك المحاسبة',amount:20000,color:'#1ABC9C'},
+];
+const TOTAL = 1200000;
+
+function buildBudget(){
+  const viz = document.getElementById('budget-visual');
+  const tbody = document.getElementById('budget-tbody');
+  BUDGET.forEach(b => {
+    const pct = (b.amount/TOTAL*100).toFixed(1);
+    viz.innerHTML += `<div style="margin-bottom:6px">
+      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px">
+        <span>${b.label}</span>
+        <span style="font-weight:700">${pct}%</span>
+      </div>
+      <div style="height:8px;background:#e2e8f0;border-radius:100px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${b.color};border-radius:100px"></div>
+      </div>
+    </div>`;
+    tbody.innerHTML += `<tr>
+      <td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${b.color};margin-left:6px;vertical-align:middle"></span>${b.label}</td>
+      <td style="font-weight:700;text-align:left">${b.amount.toLocaleString('ar-MA')}</td>
+      <td><span class="tag" style="background:#f1f5f9;color:#64748b">${pct}%</span></td>
+    </tr>`;
+  });
+  tbody.innerHTML += `<tr style="background:#f8fafc;font-weight:900">
+    <td><strong>المجموع الإجمالي</strong></td>
+    <td style="font-weight:900;color:#C0392B;text-align:left">1.200.000</td>
+    <td><span class="tag badge-red">100%</span></td>
+  </tr>`;
+}
+buildBudget();
+
+/* ── Form Submit (Google Sheets via iframe) ── */
+function submitForm(event, sheetName){
+  event.preventDefault();
+  const form = event.target;
+  const fd = new FormData(form);
+  const data = {sheetName};
+  fd.forEach((v,k) => data[k] = v.trim ? v.trim() : v);
+  const btn = form.querySelector('button[type="submit"]');
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
+  btn.disabled = true;
+  let iframe = document.getElementById('sub-iframe');
+  if(!iframe){
+    iframe = document.createElement('iframe');
+    iframe.id = 'sub-iframe';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+  }
+  iframe.onload = () => {
+    showToast('✅ تم تسجيل البيانات بنجاح في الورقة: ' + sheetName);
+    form.reset();
+    form.querySelectorAll('input[type="date"]').forEach(i => i.value = new Date().toISOString().split('T')[0]);
+    btn.innerHTML = orig;
+    btn.disabled = false;
+  };
+  iframe.src = WEB_APP_URL + '?data=' + encodeURIComponent(JSON.stringify(data));
+}
+
+/* ── Toast ── */
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+/* ── API Key ── */
+function saveApiKey(){
+  const k = document.getElementById('api-key-input').value.trim();
+  if(!k.startsWith('sk-ant-')){showToast('⚠ مفتاح غير صالح — يجب أن يبدأ بـ sk-ant-');return;}
+  apiKey = k;
+  try{localStorage.setItem('rae2c_apikey',k);}catch(e){}
+  document.getElementById('api-notice').classList.add('hidden');
+  showToast('✅ تم تفعيل الوكيل الذكي بنجاح');
+}
+
+/* ── AI Chat ── */
+function addMsg(html, role){
+  const msgs = document.getElementById('ai-messages');
+  const d = document.createElement('div');
+  d.className = 'ai-bubble ' + role;
+  d.innerHTML = html;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+async function sendAI(){
+  const inp = document.getElementById('ai-input');
+  const text = inp.value.trim();
+  if(!text) return;
+  inp.value = '';
+  addMsg(text.replace(/</g,'&lt;'), 'user');
+  if(!apiKey){
+    document.getElementById('api-notice').classList.remove('hidden');
+    addMsg('⚠ يرجى إدخال مفتاح Anthropic API أولاً لتفعيل الوكيل الذكي.', 'bot');
+    return;
+  }
+  const thinking = document.createElement('div');
+  thinking.className = 'ai-thinking';
+  thinking.textContent = '● يحلل ● يستشير ● يصيغ...';
+  document.getElementById('ai-messages').appendChild(thinking);
+  aiHistory.push({role:'user',content:text});
+  const sysPrompt = `أنت وكيل ذكاء اصطناعي متخصص في دعم شبكة RAE2C لمدارس الفرصة الثانية الجيل الجديد بإقليم ميدلت، المغرب.
+البيانات السياقية للمشروع:
+- عدد المراكز: 4 مراكز (ميدلت، أيت امغار، أيت ازدك، امرصيد)
+- الإعداديات الشريكة: 8 إعداديات (مولاي يوسف، العياشي، مولاي ارشيد، الشهداء، الحسن الداخل بميدلت — أيت امغار — القيروان بأيت ازدك — بوعياش بامرصيد)
+- الميزانية الإجمالية: 1.200.000 درهم / 9 أشهر
+- عدد المنشطين: 10 منشطين (3000 درهم/شهر)
+- المستفيدون المستهدفون: 120 يافع/ة
+- الموسم: 2025-2026 (أكتوبر إلى يونيو)
+- المجالات الثلاثة: 1) اليقظة التربوية بالإعداديات 2) التأهيل بمراكز E2C 3) الإدماج والتتبع البعدي
+- الشركاء: وزارة التربية الوطنية، OFPPT، ANAPEC، ICECD، غرف الصناعة التقليدية
+- هدف الإدماج: 80% من الخريجين
+أجب باللغة العربية بأسلوب مهني ومختصر. ساعد في تحليل المؤشرات، وضع التقارير، تتبع التقدم، والتوجيه الاستراتيجي.`;
+  try{
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:900,system:sysPrompt,messages:aiHistory})
+    });
+    thinking.remove();
+    if(!res.ok){
+      const err = await res.json().catch(()=>({}));
+      addMsg('⚠ خطأ: '+(err?.error?.message||'HTTP '+res.status),'bot');
+      if(res.status===401){apiKey='';try{localStorage.removeItem('rae2c_apikey');}catch(e){}document.getElementById('api-notice').classList.remove('hidden');}
+      return;
+    }
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || 'حدث خطأ في الرد.';
+    aiHistory.push({role:'assistant',content:reply});
+    addMsg(reply.replace(/\n/g,'<br>').replace(/</g,'&lt;').replace(/&lt;br>/g,'<br>'), 'bot');
+  }catch(err){
+    thinking.remove();
+    addMsg('⚠ تعذّر الاتصال — تأكد من صحة المفتاح وأن المتصفح يسمح بالطلبات الخارجية.','bot');
+  }
+}
+
+/* ── Date inputs default to today ── */
+window.addEventListener('load', () => {
+  const today = new Date().toISOString().split('T')[0];
+  document.querySelectorAll('input[type="date"]').forEach(i => i.value = today);
+});
+</script>
 </body>
 </html>
